@@ -1,4 +1,7 @@
 SRC=$(wildcard libs/rpi_ws281x/*.c)
+FILES=info_panel.cpp led_matrix.cpp
+CC=g++
+FLAGS=-Wall -fpermissive -std=c++17 
 
-build: 
-	g++ -std=c++17 -Wall -fpermissive -o test test.cpp libs/rpi_ws281x/ws2811.c  libs/rpi_ws281x/pcm.c libs/rpi_ws281x/dma.c libs/rpi_ws281x/mailbox.c libs/rpi_ws281x/pwm.c libs/rpi_ws281x/rpihw.c
+build: $(SRC)
+	$(CC) $(FLAGS) -o info_panel $(FILES) $^

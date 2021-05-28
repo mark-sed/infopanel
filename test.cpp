@@ -20,11 +20,6 @@ extern "C" {
 #define HEIGHT                  8
 #define LED_COUNT               (WIDTH * HEIGHT)
 
-/*extern "C" {
-	ws2811_return_t ws2811_init(ws2811_t *);
-	ws2811_return_t ws2811_render(ws2811_t *); 
-	void ws2811_fini(ws2811_t *);
-}*/
 
 int width = WIDTH;
 int height = HEIGHT;
