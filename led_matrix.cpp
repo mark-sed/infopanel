@@ -42,6 +42,6 @@ void LEDMatrix::render(){
    /*for(int i = 0; i < width*height; i++){
        this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds[i] = this->pixels[i];
    } */
-   std::copy(this->pixels, &this->pixels[width*height-1], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+   std::copy(this->pixels, &this->pixels[width*height], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
    ws2811_render(&this->ledstring);
 }
