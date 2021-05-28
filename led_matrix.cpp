@@ -1,6 +1,8 @@
 #include "led_matrix.hpp"
 #include <stdint.h>
 
+#include <iostream>
+
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness=16) : width(width), height(height), brightness(brightness){
     this->pixels = new ws2811_led_t[width*height]; 
     // Setup ledstring     
@@ -34,8 +36,9 @@ LEDMatrix::~LEDMatrix(){
 }
 
 void LEDMatrix::test(){
-    for(int i = 0; i < width*height; i++){
-        this->pixels[i] = i*65536;
+    for(int i = 1; i < width*height-1; i++){
+	this->pixels[i-1] = 0;
+	std::cout << std::hex << this->pixels[i-1] << ", ";
     }
 
     this->render();
