@@ -23,9 +23,26 @@ namespace ConfLEDMatrix {
  * Enum class holding all basic colors
  */
 enum Color : ws2811_led_t {
-    RED = 0x00FF0000,
-    GREEN = 0x0000FF00,
-    BLUE = 0x000000FF,
+    BLACK = 0x00'00'00'00,
+    WHITE = 0x00'FF'FF'FF,
+    RED = 0x00'FF'00'00,
+    LIME = 0x00'00'FF'00,
+    BLUE = 0x00'00'00'FF,
+    YELLOW = 0x00'FF'FF'00,
+    CYAN = 0x00'00'FF'FF,
+    MAGENTA = 0x00'FF'00'FF,
+    SILVER = 0x00'C0'C0'C0,
+    GRAY = 0x00'80'80'80,
+    MAROON = 0x00'80'00'00,
+    OLIVE = 0x00'80'80'00,
+    GREEN = 0x00'00'80'00,
+    PURPLE = 0x00'80'00'80,
+    TEAL = 0x00'00'80'80,
+    NAVY = 0x00'00'00'80,
+    PINK = 0x00'FF'69'B4,
+    INDIGO = 0x00'4B'00'82,
+    VIOLET = 0x00'94'00'D3,
+    ORANGE = 0x00'FF'A5'00,
 };
 
 /**
