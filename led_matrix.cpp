@@ -39,7 +39,7 @@ LEDMatrix::~LEDMatrix(){
 }
 
 static uint32_t hsv2rgb(float h, float s, float v){
-    float H = h;
+    /*float H = h;
     float C = s*v;
     float X = C*(1-abs(fmod(H/60.0, 2)-1));
     float m = v-C;
@@ -65,6 +65,49 @@ static uint32_t hsv2rgb(float h, float s, float v){
     uint32_t R = (r+m)*255;
     uint32_t G = (g+m)*255;
     uint32_t B = (b+m)*255;
+    */
+    int h_i = static_cast<int>(h*6);
+    float f = h*6 - h_i;
+    float p = v * (1-s);
+    float q = v * (1 - f*s);
+    float t = v * (1 - (1 - f) * s);
+    float r, g, b;
+    switch(h_i){
+        case 0:
+            r = v;
+            g = t;
+            b = p;
+        break;
+        case 1:
+            r = q;
+            g = v;
+            b = p;
+        break;
+        case 2:
+            r = p;
+            g = v;
+            b = t;
+        break;
+        case 3:
+            r = p;
+            g = q;
+            b = v;
+        break;
+        case 4:
+            r = t;
+            g = p;
+            b = v;
+        break;
+        default:
+            r = v;
+            g = p;
+            b = q;
+        break;
+    }
+
+    uint32_t R = static_cast<int>(r*255);
+    uint32_t G = static_cast<int>(g*255);
+    uint32_t B = static_cast<int>(b*255);
     return ((R<<16) + (G<<8) + B);
 }
 
