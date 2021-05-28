@@ -115,11 +115,11 @@ void LEDMatrix::test(){
     const float GOLDEN_RATION = 0.618033988749895;
     std::srand(std::time(nullptr));
     for(int i = 0; i < width*height; i++){
-        float h = (std::rand() + GOLDEN_RATION)*360;
+        float h = std::rand(); //+ GOLDEN_RATION;
         //h = std::fmod(h, 1);
-        this->pixels[i] = hsv2rgb(h, 50, 99);
+        this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
 	
-	std::cout << std::hex << hsv2rgb(100, 60, 40) << ",";
+	    std::cout << std::hex << this->pixels[i] << ",";
     }
 
     this->render();
