@@ -26,7 +26,7 @@ enum class Colors : ws2811_led_t {
     RED = 0xFF0000,
     GREEN = 0x00FF00,
     BLUE = 0x0000FF,
-}
+};
 
 /**
  * Led matrix 
