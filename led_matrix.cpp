@@ -35,8 +35,8 @@ LEDMatrix::~LEDMatrix(){
 
 void LEDMatrix::test(){
     this->pixels[0] = Color::RED;
-    this->pixels[42] = Color::BLUE;
-    this->pixels[255] = Color::GREEN;
+    this->pixels[42] = 0x00'008000;//Color::BLUE;
+    this->pixels[255] = 0x00'BC8F8F;
     this->render();
 }
 

@@ -11,7 +11,7 @@
  * Configuration namespace, holds all needed values for HW configuration
  */
 namespace ConfLEDMatrix {
-    const int STRIP_TYPE = WS2811_STRIP_BRG;
+    const int STRIP_TYPE = WS2811_STRIP_GRB;
     const uint32_t TARGET_FREQUENCY = WS2811_TARGET_FREQ;
     const int DMA_NUMBER = 10;
     const int GPIO_PIN = 18;
@@ -23,9 +23,9 @@ namespace ConfLEDMatrix {
  * Enum class holding all basic colors
  */
 enum Color : ws2811_led_t {
-    RED = 0xFF0000,
-    GREEN = 0x00FF00,
-    BLUE = 0x0000FF,
+    RED = 0x00FF0000,
+    GREEN = 0x0000FF00,
+    BLUE = 0x000000FF,
 };
 
 /**
