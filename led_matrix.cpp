@@ -38,34 +38,7 @@ LEDMatrix::~LEDMatrix(){
     ws2811_fini(&this->ledstring);
 }
 
-static uint32_t hsv2rgb(float h, float s, float v){
-    /*float H = h;
-    float C = s*v;
-    float X = C*(1-abs(fmod(H/60.0, 2)-1));
-    float m = v-C;
-    float r,g,b;
-    if(H >= 0 && H < 60){
-        r = C,g = X,b = 0;
-    }
-    else if(H >= 60 && H < 120){
-        r = X,g = C,b = 0;
-    }
-    else if(H >= 120 && H < 180){
-        r = 0,g = C,b = X;
-    }
-    else if(H >= 180 && H < 240){
-        r = 0,g = X,b = C;
-    }
-    else if(H >= 240 && H < 300){
-        r = X,g = 0,b = C;
-    }
-    else{
-        r = C,g = 0,b = X;
-    }
-    uint32_t R = (r+m)*255;
-    uint32_t G = (g+m)*255;
-    uint32_t B = (b+m)*255;
-    */
+uint32_t hsv2rgb(float h, float s, float v){
     int h_i = static_cast<int>(h*6);
     float f = h*6 - h_i;
     float p = v * (1-s);
@@ -105,23 +78,24 @@ static uint32_t hsv2rgb(float h, float s, float v){
         break;
     }
 
-    uint32_t R = static_cast<int>(r*255);
-    uint32_t G = static_cast<int>(g*255);
-    uint32_t B = static_cast<int>(b*255);
+    uint32_t R = static_cast<uint32_t>(r*256);
+    uint32_t G = static_cast<uint32_t>(g*256);
+    uint32_t B = static_cast<uint32_t>(b*256);
     return ((R<<16) + (G<<8) + B);
 }
 
 void LEDMatrix::test(){
-    const float GOLDEN_RATION = 0.618033988749895;
+    const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
     for(int i = 0; i < width*height; i++){
-        float h = std::rand(); //+ GOLDEN_RATION;
-        //h = std::fmod(h, 1);
+	// Generate random number in <0, 1>
+        float h = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
+        // Add golden ratio for better value and set it back in the range
+	h += GOLDEN_RATIO;
+	h = std::fmod(h, 1.0);
+	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
-	
-	    std::cout << std::hex << this->pixels[i] << ",";
     }
-
     this->render();
 }
 
