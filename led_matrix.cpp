@@ -38,9 +38,8 @@ LEDMatrix::~LEDMatrix(){
     ws2811_fini(&this->ledstring);
 }
 
-static uint32_t hsv2rgb(float H, float S, float V){
-    float s = S/100;
-    float v = V/100;
+static uint32_t hsv2rgb(float h, float s, float v){
+    float H = h;
     float C = s*v;
     float X = C*(1-abs(fmod(H/60.0, 2)-1));
     float m = v-C;
@@ -72,10 +71,12 @@ static uint32_t hsv2rgb(float H, float S, float V){
 void LEDMatrix::test(){
     const float GOLDEN_RATION = 0.618033988749895;
     std::srand(std::time(nullptr));
-    for(int i = 1; i < width*height-1; i++){
-        float h = std::rand() + GOLDEN_RATION;
-        h = std::fmod(h, 1);
-        this->pixels[i-1] = hsv2rgb(h, 0.99, 0.99);
+    for(int i = 0; i < width*height; i++){
+        float h = (std::rand() + GOLDEN_RATION)*360;
+        //h = std::fmod(h, 1);
+        this->pixels[i] = hsv2rgb(h, 50, 99);
+	
+	std::cout << std::hex << hsv2rgb(100, 60, 40) << ",";
     }
 
     this->render();
