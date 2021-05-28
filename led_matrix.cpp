@@ -3,7 +3,7 @@
 
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness=16) : width(width), height(height), brightness(brightness){
     this->pixels = new ws2811_led_t[width*height];      
-    this->ledstring = {
+    ws2811_t temp_ledstring = {
         .freq = ConfLEDMatrix::TARGET_FREQUENCY,
         .dmanum = ConfLEDMatrix::DMA_NUMBER,
         .channel = {
@@ -22,10 +22,13 @@ LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness
             },
         },
     };
+    this->ledstring = temp_ledstring;
+    ws2811_init(&this->ledstring);
 };
 
 LEDMatrix::~LEDMatrix(){
     delete [] this->pixels;
+    ws2811_fini(&this->ledstring);
 }
 
 void LEDMatrix::test(){
@@ -36,5 +39,9 @@ void LEDMatrix::test(){
 }
 
 void LEDMatrix::render(){
-    std::copy(this->pixels, this->pixels+this->width*this->height, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+   /*for(int i = 0; i < width*height; i++){
+       this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds[i] = this->pixels[i];
+   } */
+   std::copy(this->pixels, &this->pixels[width*height-1], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+   ws2811_render(&this->ledstring);
 }
