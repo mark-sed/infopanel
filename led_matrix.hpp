@@ -57,13 +57,16 @@ private:
     ws2811_t ledstring;  ///< Configuration struct
     
 public:
+    static const size_t EVEN_I = 0;
+    static const size_t ODD_I = 1;
+    std::vector<ws2811_led_t> pixels[2];  ///< Holds LED values to be rendered on the matrix for odd and even offset
     /**
      * Constructor
      * @param width Amount of pixel horizontally in the LED matrix
      * @param height Amount of pixels vertically in the LED matrix
      * @param brightness Brightness of the panel (\in <0, 255>), by default this is 16
      */
-    LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness);
+    LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness=16);
     ~LEDMatrix();
 
     /**
@@ -71,19 +74,22 @@ public:
      * @param brightness New brightness value
      * @param render If this is true, then ws2811_render will be called. This is false by default.
      */
-    void set_brightness(uint8_t brightness, bool render);
+    void set_brightness(uint8_t brightness, bool render=false);
+
+    void draw_text(std::string text, ws2811_led_t default_color=Color::WHITE);
 
     /**
      * Renders drawn data to the LED matrix
+     * @offset At what column should the first rendered pixels pixel be.
+     *         So for offset 2 - the 3rd column will be at the start of the panel
      */
-    void render();
+    void render(unsigned int offset=0);
 
     /**
      * Tests the LED matrix (in colors and effects)
      */
     void test();
     
-    ws2811_led_t *pixels;  ///< Holds LED values to be rendered on the matrix
 };
 
  #endif//_LED_MATRIX_HPP_
