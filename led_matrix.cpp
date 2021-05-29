@@ -96,8 +96,19 @@ static uint32_t hsv2rgb(float h, float s, float v){
 
 void LEDMatrix::test(){
     FontAscii ascii;
-    for(int i = 0; i < ascii.get_max_width()*ascii.get_max_height(); i++){
-        this->pixels[i] = ascii.letters['B'][i];
+    int p = 8;
+    int prev = ascii.get_max_height()-1;
+    int r = prev;
+    int stop = 0;
+    for(int i = 0; i < (ascii.get_max_width()-1)*ascii.get_max_height(); i++){
+	    std::cout << r << std::endl;
+	this->pixels[p++] = ascii.letters['B'][r];
+	r--;
+	if(r < stop){
+	    stop += ascii.get_max_height();
+	    prev += ascii.get_max_height();
+	    r = prev;
+	}
     }
 /*
     const float GOLDEN_RATIO = 0.618033988749895;
