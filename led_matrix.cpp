@@ -52,8 +52,10 @@ void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t defaul
     // TODO: Make this place in spacers if max_height != height?
     const unsigned int LETTER_SPACE = 1;
     size_t text_max_length = text.length()*font.get_max_width()*this->height + text.length()*this->height*LETTER_SPACE;
-    this->pixels[LEDMatrix::ODD_I].resize(text_max_length);
-    this->pixels[LEDMatrix::ODD_I].resize(text_max_length);
+    this->pixels[LEDMatrix::ODD_I].resize(text_max_length+0/*height*width*/);
+    this->pixels[LEDMatrix::EVEN_I].resize(text_max_length+0/*height*width*/);
+    std::fill(this->pixels[LEDMatrix::ODD_I].begin(), this->pixels[LEDMatrix::ODD_I].end(), Color::BLACK);
+    std::fill(this->pixels[LEDMatrix::EVEN_I].begin(), this->pixels[LEDMatrix::EVEN_I].end(), Color::BLACK);
     
     unsigned int odd_i = LEDMatrix::ODD_I;
     unsigned int even_i = LEDMatrix::EVEN_I;
@@ -62,14 +64,21 @@ void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t defaul
     for(unsigned int i = 0; i < text.length(); i++){
         if((render_pos/height) % 2){
             // Swap indexes if odd is rendered on even index and vice versa
-            std::swap(odd_i, even_i);
-        }
-        // Odd column
-        unsigned int prev = font.get_max_height()-1;
-        unsigned int r = prev;
-        unsigned int stop = 0;
-        for(long i = 0; i < font.letters[text[i]].size(); i++){
-            this->pixels[odd_i][render_pos+i] = font.letters[text[i]][r]*color;
+            odd_i = LEDMatrix::EVEN_I;
+	    even_i = LEDMatrix::ODD_I;
+	}
+	else{
+            odd_i = LEDMatrix::ODD_I;
+	    even_i = LEDMatrix::EVEN_I;
+	}
+        int prev = font.get_max_height()-1;
+        int r = prev;
+        int stop = 0;
+        for(long j = 0; j < font.letters[text[i]].size(); j++){
+            // Even columns
+	    this->pixels[even_i][render_pos+j] = font.letters[text[i]][j]*color;
+            // Odd column
+	    this->pixels[odd_i][render_pos+j] = font.letters[text[i]][r]*color;
             r--;
             if(r < stop){
                 stop += font.get_max_height();
@@ -77,18 +86,13 @@ void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t defaul
                 r = prev;
             }
         }
-        // Even column
-        for(long j = 0; j < font.letters[text[i]].size(); j++){
-            this->pixels[even_i][render_pos+j] = font.letters[text[i]][j]*color;
-        }
-        //std::copy(font.letters[text[i]].begin(), font.letters[text[i]].end(), &this->pixels[even_i][render_pos]);
-        render_pos += font.letters[text[i]].size() + height*LETTER_SPACE + 1;
+        render_pos += font.letters[text[i]].size() + height*LETTER_SPACE;
     }
 }
 
 void LEDMatrix::test(){
     FontAscii ascii;
-    draw_text("BBBB", ascii);
+    draw_text("BBBBBBBBB", ascii);
 /*
     const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
@@ -101,15 +105,22 @@ void LEDMatrix::test(){
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
     }*/
-    this->render(1);
+    this->render(10);
 }
 
 void LEDMatrix::render(unsigned int offset){
     // TODO: Add negative offset for shifting text to right
     
     size_t i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
+    
+    std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
     // Copy data from matrix to ledstring
-    std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[width*height+offset*height], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+    size_t last_i = width*height+offset*height;
+    std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+    // Clear space after last character
+    if(this->pixels[i].size()-offset*height < width*height){
+        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+this->pixels[i].size()-offset*height, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+    }
     // Call ws render to display new data
     ws2811_render(&this->ledstring);
 }
