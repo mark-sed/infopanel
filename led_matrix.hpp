@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <cstddef>
 #include <algorithm>
+#include <vector>
+#include <string>
 
 #include "libs/rpi_ws281x/ws2811.h"
 

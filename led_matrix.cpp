@@ -59,7 +59,6 @@ void LEDMatrix::test(){
     int r = prev;
     int stop = 0;
     for(int i = 0; i < (ascii.get_max_width()-1)*ascii.get_max_height(); i++){
-	    std::cout << r << std::endl;
         this->pixels[0][p++] = ascii.letters['B'][r];
         r--;
         if(r < stop){
@@ -80,7 +79,7 @@ void LEDMatrix::test(){
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
     }*/
-    this->render();
+    this->render(2);
 }
 
 void LEDMatrix::render(unsigned int offset){
