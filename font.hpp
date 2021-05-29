@@ -4,8 +4,7 @@
 #include <stdint.h>
 #include <map>
 #include <vector>
-
-#define FONT_ENTRY(k, ...) {(k), std::vector<ws2811_led_t>{__VA_ARGS__}}
+#include "libs/rpi_ws281x/ws2811.h"
 
 using LetterT = wchar_t;
 
@@ -27,31 +26,8 @@ public:
 };
 
 class FontAscii : public virtual MatrixFont {
-private:
 public:
-    FontAscii() : MatrixFont(8, 5, false){
-        this->letters = {
-            FONT_ENTRY(L'b',
-		        0, 1, 1, 1, 1, 1, 1, 0, 
-                0, 1, 0, 0, 1, 0, 1, 0,
-                0, 0, 1, 1, 0, 0, 1, 0,
-                0, 0, 1, 1, 0, 0, 0, 0
-            ),
-            FONT_ENTRY(L'B',
-		        0, 1, 1, 1, 1, 1, 1, 0,
-		        0, 1, 0, 0, 1, 0, 1, 0,
-		        0, 1, 0, 1, 0, 0, 1, 0,
-		        0, 0, 1, 1, 0, 1, 0, 0,
-            ),
-
-            FONT_ENTRY(L'\0',
-		        0, 0, 0, 0, 0, 0, 0, 0,
-		        0, 0, 0, 0, 0, 0, 0, 0,
-		        0, 0, 0, 0, 0, 0, 0, 0,
-		        0, 0, 0, 0, 0, 0, 0, 0,
-            ),
-        };
-    };
+    FontAscii();
 };
 
 #endif//_FONT_HPP_

@@ -4,8 +4,10 @@
 #include <ctime>
 #include <cmath>
 #include "font.hpp"
+#include <sstream>
 
 #include <iostream>
+#include <unistd.h>
 
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness) : 
                      width(width), height(height), brightness(brightness), 
@@ -91,10 +93,7 @@ void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t defaul
 }
 
 void LEDMatrix::test(){
-    FontAscii ascii;
-    draw_text("BBBBBBBBB", ascii);
-/*
-    const float GOLDEN_RATIO = 0.618033988749895;
+    /*const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
     for(int i = 0; i < width*height; i++){
 	// Generate random number in <0, 1>
@@ -105,7 +104,20 @@ void LEDMatrix::test(){
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
     }*/
-    this->render(10);
+
+    // Draw all characters
+    FontAscii ascii;
+    std::stringstream ss;
+    for(auto iter = ascii.letters.begin(); iter != ascii.letters.end(); ++iter){
+        ss << iter->first;
+    }
+    draw_text(ss.str(), ascii, Color::RED);
+    long col = 0;
+    while(col < this->pixels[LEDMatrix::EVEN_I].size()/height){
+        this->render(col);
+        col++;
+        usleep(90000);
+    }
 }
 
 void LEDMatrix::render(unsigned int offset){

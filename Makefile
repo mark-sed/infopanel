@@ -1,5 +1,5 @@
 SRC=$(wildcard libs/rpi_ws281x/*.c)
-FILES=info_panel.cpp led_matrix.cpp
+FILES=$(wildcard *.cpp)
 CC=g++
 FLAGS=-Wall -fpermissive -std=c++17 -g
 LIBS=-lm
