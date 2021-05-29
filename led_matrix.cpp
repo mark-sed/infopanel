@@ -50,7 +50,7 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
     }
 }
 
-void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t default_color){
+void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t default_color){
     // TODO: Make this place in spacers if max_height != height?
     const unsigned int LETTER_SPACE = 1;
     size_t text_max_length = text.length()*font.get_max_width()*this->height + text.length()*this->height*LETTER_SPACE;
@@ -107,9 +107,9 @@ void LEDMatrix::test(){
 
     // Draw all characters
     FontAscii ascii;
-    std::stringstream ss;
-    for(auto iter = ascii.letters.begin(); iter != ascii.letters.end(); ++iter){
-        ss << iter->first;
+    std::wstringstream ss;
+    for(const auto &pair: ascii.letters){
+	ss << pair.first;
     }
     draw_text(ss.str(), ascii, Color::RED);
     long col = 0;
