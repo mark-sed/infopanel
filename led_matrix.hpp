@@ -1,5 +1,5 @@
-#ifndef __LED_MATRIX_HPP__
-#define __LED_MATRIX_HPP__
+#ifndef _LED_MATRIX_HPP_
+#define _LED_MATRIX_HPP_
 
 #include <stdint.h>
 #include <cstddef>
@@ -67,6 +67,13 @@ public:
     ~LEDMatrix();
 
     /**
+     * Sets brightness for panel
+     * @param brightness New brightness value
+     * @param render If this is true, then ws2811_render will be called. This is false by default.
+     */
+    void set_brightness(uint8_t brightness, bool render);
+
+    /**
      * Renders drawn data to the LED matrix
      */
     void render();
@@ -79,4 +86,4 @@ public:
     ws2811_led_t *pixels;  ///< Holds LED values to be rendered on the matrix
 };
 
- #endif//__LED_MATRIX_HPP__
+ #endif//_LED_MATRIX_HPP_

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ctime>
 #include <cmath>
+#include "font.hpp"
 
 #include <iostream>
 
@@ -38,7 +39,16 @@ LEDMatrix::~LEDMatrix(){
     ws2811_fini(&this->ledstring);
 }
 
-uint32_t hsv2rgb(float h, float s, float v){
+void LEDMatrix::set_brightness(uint8_t brightness, bool render=false){
+    // No need to check if value is in range,
+    // because brightness is of type uint8_t
+    this->ledstring.channel[0].brightness = brightness;
+    if(render){
+        ws2811_render(&this->ledstring);
+    }
+}
+
+static uint32_t hsv2rgb(float h, float s, float v){
     int h_i = static_cast<int>(h*6);
     float f = h*6 - h_i;
     float p = v * (1-s);
@@ -85,6 +95,11 @@ uint32_t hsv2rgb(float h, float s, float v){
 }
 
 void LEDMatrix::test(){
+    FontAscii ascii;
+    for(int i = 0; i < ascii.get_max_width()*ascii.get_max_height(); i++){
+        this->pixels[i] = ascii.letters['A'][i];
+    }
+/*
     const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
     for(int i = 0; i < width*height; i++){
@@ -96,7 +111,7 @@ void LEDMatrix::test(){
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
     }
-    this->render();
+    this->render();*/
 }
 
 void LEDMatrix::render(){
