@@ -113,9 +113,12 @@ void LEDMatrix::test(){
     }
     draw_text(ss.str(), ascii, Color::RED);
     long col = 0;
-    while(col < this->pixels[LEDMatrix::EVEN_I].size()/height){
+    while(true){
         this->render(col);
         col++;
+        if(col >= this->pixels[LEDMatrix::EVEN_I].size()/height){
+            col = 0;
+        }
         usleep(90000);
     }
 }
