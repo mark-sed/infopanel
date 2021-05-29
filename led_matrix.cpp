@@ -48,25 +48,47 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
     }
 }
 
-void LEDMatrix::draw_text(std::string text, ws2811_led_t default_color){
-
+void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t default_color){
+    // TODO: Make this place in spacers if max_height != height?
+    const unsigned int LETTER_SPACE = 1;
+    size_t text_max_length = text.length()*font.get_max_width()*this->height + text.length()*this->height*LETTER_SPACE;
+    this->pixels[LEDMatrix::ODD_I].resize(text_max_length);
+    this->pixels[LEDMatrix::ODD_I].resize(text_max_length);
+    
+    unsigned int odd_i = LEDMatrix::ODD_I;
+    unsigned int even_i = LEDMatrix::EVEN_I;
+    unsigned int render_pos = 0;
+    ws2811_led_t color = default_color;
+    for(unsigned int i = 0; i < text.length(); i++){
+        if((render_pos/height) % 2){
+            // Swap indexes if odd is rendered on even index and vice versa
+            std::swap(odd_i, even_i);
+        }
+        // Odd column
+        unsigned int prev = font.get_max_height()-1;
+        unsigned int r = prev;
+        unsigned int stop = 0;
+        for(long i = 0; i < (font.get_max_width()-1)*font.get_max_height(); i++){
+            this->pixels[odd_i][render_pos+i] = font.letters[text[i]][r]*color;
+            r--;
+            if(r < stop){
+                stop += font.get_max_height();
+                prev += font.get_max_height();
+                r = prev;
+            }
+        }
+        // Even column
+        for(long j = 0; j < (font.get_max_width()-1)*font.get_max_height(); j++){
+            this->pixels[even_i][render_pos+j] = font.letters[text[i]][j]*color;
+        }
+        //std::copy(font.letters[text[i]].begin(), font.letters[text[i]].end(), &this->pixels[even_i][render_pos]);
+        render_pos += font.letters[text[i]].size() + height*LETTER_SPACE + 1;
+    }
 }
 
 void LEDMatrix::test(){
     FontAscii ascii;
-    int p = 8;
-    int prev = ascii.get_max_height()-1;
-    int r = prev;
-    int stop = 0;
-    for(int i = 0; i < (ascii.get_max_width()-1)*ascii.get_max_height(); i++){
-        this->pixels[0][p++] = ascii.letters['B'][r];
-        r--;
-        if(r < stop){
-            stop += ascii.get_max_height();
-            prev += ascii.get_max_height();
-            r = prev;
-        }
-    }
+    draw_text("BBBB", ascii);
 /*
     const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
@@ -79,7 +101,7 @@ void LEDMatrix::test(){
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
     }*/
-    this->render(2);
+    this->render(0);
 }
 
 void LEDMatrix::render(unsigned int offset){

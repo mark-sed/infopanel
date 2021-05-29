@@ -8,6 +8,7 @@
 #include <string>
 
 #include "libs/rpi_ws281x/ws2811.h"
+#include "font.hpp"
 
 /** 
  * Configuration namespace, holds all needed values for HW configuration
@@ -78,7 +79,7 @@ public:
      */
     void set_brightness(uint8_t brightness, bool render=false);
 
-    void draw_text(std::string text, ws2811_led_t default_color=Color::WHITE);
+    void draw_text(std::string text, MatrixFont font, ws2811_led_t default_color=Color::WHITE);
 
     /**
      * Renders drawn data to the LED matrix
