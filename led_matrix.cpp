@@ -101,10 +101,12 @@ void LEDMatrix::test(){
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
     }*/
-    this->render(0);
+    this->render(1);
 }
 
 void LEDMatrix::render(unsigned int offset){
+    // TODO: Add negative offset for shifting text to right
+    
     size_t i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
     // Copy data from matrix to ledstring
     std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[width*height+offset*height], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
