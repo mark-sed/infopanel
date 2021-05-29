@@ -97,7 +97,7 @@ static uint32_t hsv2rgb(float h, float s, float v){
 void LEDMatrix::test(){
     FontAscii ascii;
     for(int i = 0; i < ascii.get_max_width()*ascii.get_max_height(); i++){
-        this->pixels[i] = ascii.letters['A'][i];
+        this->pixels[i] = ascii.letters['B'][i];
     }
 /*
     const float GOLDEN_RATIO = 0.618033988749895;
@@ -110,8 +110,8 @@ void LEDMatrix::test(){
 	h = std::fmod(h, 1.0);
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
-    }
-    this->render();*/
+    }*/
+    this->render();
 }
 
 void LEDMatrix::render(){
