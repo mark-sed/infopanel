@@ -68,7 +68,7 @@ void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t defaul
         unsigned int prev = font.get_max_height()-1;
         unsigned int r = prev;
         unsigned int stop = 0;
-        for(long i = 0; i < (font.get_max_width()-1)*font.get_max_height(); i++){
+        for(long i = 0; i < font.letters[text[i]].size(); i++){
             this->pixels[odd_i][render_pos+i] = font.letters[text[i]][r]*color;
             r--;
             if(r < stop){
@@ -78,7 +78,7 @@ void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t defaul
             }
         }
         // Even column
-        for(long j = 0; j < (font.get_max_width()-1)*font.get_max_height(); j++){
+        for(long j = 0; j < font.letters[text[i]].size(); j++){
             this->pixels[even_i][render_pos+j] = font.letters[text[i]][j]*color;
         }
         //std::copy(font.letters[text[i]].begin(), font.letters[text[i]].end(), &this->pixels[even_i][render_pos]);
