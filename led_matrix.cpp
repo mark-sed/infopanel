@@ -130,14 +130,9 @@ void LEDMatrix::test(){
 
     FontAscii ascii;
     auto sc = SimpleClock(std::move(ascii));
-    long col = 0;
     while(true){
         sc.draw(*this);
-        this->render(col);
-        col++;
-        if(col >= this->pixels[LEDMatrix::EVEN_I].size()/height){
-            col = 0;
-        }
+        this->render(-7);
         usleep(10*1000*1000);
     }
 }

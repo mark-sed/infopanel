@@ -6,7 +6,7 @@
 #include "font.hpp"
 
 int main(int argc, char *argv[]){
-    LEDMatrix matrix(32, 8, 4);
+    LEDMatrix matrix(32, 8, 1);
     matrix.test();
     return 0;
 }

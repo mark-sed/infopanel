@@ -3,6 +3,8 @@ FILES=$(wildcard *.cpp)
 CC=g++
 FLAGS=-Wall -fpermissive -std=c++17 -g
 LIBS=-lm
+EXT=.out
+OUT_NAME=info_panel
 
 build: $(SRC)
-	$(CC) $(FLAGS) -o info_panel $(FILES) $^ $(LIBS)
+	$(CC) $(FLAGS) -o $(OUT_NAME)$(EXT) $(FILES) $^ $(LIBS)
