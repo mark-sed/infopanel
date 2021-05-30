@@ -1,10 +1,11 @@
-#include "led_matrix.hpp"
 #include <stdint.h>
 #include <stdlib.h>
 #include <ctime>
 #include <cmath>
-#include "font.hpp"
 #include <sstream>
+#include "font.hpp"
+#include "led_matrix.hpp"
+#include "clock.hpp"
 
 #include <iostream>
 #include <unistd.h>
@@ -64,23 +65,27 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     unsigned int render_pos = 0;
     ws2811_led_t color = default_color;
     for(unsigned int i = 0; i < text.length(); i++){
+        // Swap indexes if odd is rendered on even index and vice versa
         if((render_pos/height) % 2){
-            // Swap indexes if odd is rendered on even index and vice versa
             odd_i = LEDMatrix::EVEN_I;
-	    even_i = LEDMatrix::ODD_I;
-	}
-	else{
+	        even_i = LEDMatrix::ODD_I;
+        }
+        else{
             odd_i = LEDMatrix::ODD_I;
-	    even_i = LEDMatrix::EVEN_I;
-	}
+	        even_i = LEDMatrix::EVEN_I;
+	    }
+        auto letter = font.unknown;
+        if(font.letters.count(text[i]) > 0){
+            letter = font.letters[text[i]];
+        }
         int prev = font.get_max_height()-1;
         int r = prev;
         int stop = 0;
-        for(long j = 0; j < font.letters[text[i]].size(); j++){
+        for(long j = 0; j < letter.size(); j++){
             // Even columns
-	    this->pixels[even_i][render_pos+j] = font.letters[text[i]][j]*color;
+	    this->pixels[even_i][render_pos+j] = letter[j]*color;
             // Odd column
-	    this->pixels[odd_i][render_pos+j] = font.letters[text[i]][r]*color;
+	    this->pixels[odd_i][render_pos+j] = letter[r]*color;
             r--;
             if(r < stop){
                 stop += font.get_max_height();
@@ -88,7 +93,7 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
                 r = prev;
             }
         }
-        render_pos += font.letters[text[i]].size() + height*LETTER_SPACE;
+        render_pos += letter.size() + height*LETTER_SPACE;
     }
 }
 
@@ -106,6 +111,7 @@ void LEDMatrix::test(){
     }*/
 
     // Draw all characters
+    /*
     FontAscii ascii;
     std::wstringstream ss;
     for(const auto &pair: ascii.letters){
@@ -120,6 +126,19 @@ void LEDMatrix::test(){
             col = 0;
         }
         usleep(90000);
+    }*/
+
+    FontAscii ascii;
+    auto sc = SimpleClock(std::move(ascii));
+    long col = 0;
+    while(true){
+        sc.draw(*this);
+        this->render(col);
+        col++;
+        if(col >= this->pixels[LEDMatrix::EVEN_I].size()/height){
+            col = 0;
+        }
+        usleep(10*1000*1000);
     }
 }
 

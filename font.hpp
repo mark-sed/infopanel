@@ -13,8 +13,8 @@ protected:
     uint8_t max_height;
     uint8_t max_width;
     bool monospace;
-    std::vector<ws2811_led_t> unknown;
 public:
+    std::vector<ws2811_led_t> unknown;
     std::map<LetterT, std::vector<ws2811_led_t> > letters;
 
     MatrixFont(uint8_t max_height, uint8_t max_width, bool monospace)
