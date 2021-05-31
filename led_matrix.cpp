@@ -54,15 +54,16 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
 
 unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     // TODO: Add escape sequence for {{
-    const std::string SEQ_PREFIX = std::string("^\\"+LEDMatrix::SEQ_PREFIX_START)+"\\{";
+    const std::string SEQ_PREFIX = "^\\{\\{";
     const std::string SEQ_POSTFIX = "\\}\\}";
     const std::string SEQ_COLOR = "(0[xX][0-9a-fA-F]{6})";
-    const std::regex RE_CTRL_SEQ_COLOR((SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX));
+    const std::regex RE_CTRL_SEQ_COLOR(SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX);
 
     std::string text = std::string(wtext.begin(), wtext.end());
+	std::cout << "T:" << text << std::endl;
 
     std::smatch match;
-    if(!std::regex_search(text, match, RE_CTRL_SEQ_COLOR, std::regex_constants::match_not_bol)){
+    if(!std::regex_search(text, match, RE_CTRL_SEQ_COLOR)){
         // Control sequence not matched, draw this text
         return 0;
     }
@@ -70,7 +71,7 @@ unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     if(match.size() < 2){
         return 0;
     }
-    std::wcout << wtext << std::endl;
+    
 	    std::cout << "MATCH: " << match[0] << match[1] << std::endl;
 
     std::string new_color = match[1];
@@ -78,7 +79,7 @@ unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     // Ignoring errors because value is checked in regex
     int color_value = std::stoul(new_color, nullptr, 16);
     color = static_cast<ws2811_led_t>(color_value);
-    return SEQ_PREFIX.size()+new_color.size()+SEQ_PREFIX.size();
+    return match[0].length();
 }
 
 void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t default_color){
@@ -96,8 +97,9 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     ws2811_led_t color = default_color;
     for(unsigned int i = 0; i < text.length(); i++){
         // Parsing control sequences for colors
-        if(text[i] == LEDMatrix::SEQ_PREFIX_START){
+        if(text[i] == L'{'){
             i += this->parse_ctrl_seq(text.substr(i), color);
+	    std::cout << "CL: " << color << std::endl;
         }
         // Swap indexes if odd is rendered on even index and vice versa
         if((render_pos/height) % 2){
@@ -163,7 +165,7 @@ void LEDMatrix::test(){
     }*/
 
     FontAscii ascii;
-    draw_text(std::wstring(L"Hello {{0xFF00AA}} World { this is {{0x770000}} colored {{0xFFFFFF}} text."), ascii, Color::RED);
+    draw_text(std::wstring(L"Hello {{0xFF00AA}} World { this is {{0x778800}} colored {{0xFFFFFF}} text."), ascii, Color::RED);
     long col = 0;
     while(true){
         this->render(col);
