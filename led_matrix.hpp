@@ -106,7 +106,7 @@ public:
     void render(unsigned int offset=0);
 
     /**
-     * Tests the LED matrix (in colors and effects)
+     * Tests the LED matrix (effects showcase)
      */
     void test();
     

@@ -5,7 +5,6 @@
 #include <sstream>
 #include <iostream>
 
-Clock::~Clock() { }
 
 const std::tm *Clock::get_time_now(){
     std::time_t t = std::time(nullptr);

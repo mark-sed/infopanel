@@ -2,6 +2,7 @@
 
 #define FONT_ENTRY(k, ...) {(k), std::vector<ws2811_led_t>{__VA_ARGS__}}
 
+
 FontAscii::FontAscii() : MatrixFont(8, 5, false){
     this->unknown = {
             0, 1, 1, 1, 1, 1, 1, 0, 
