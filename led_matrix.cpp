@@ -54,10 +54,10 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
 
 unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     // TODO: Add escape sequence for {{
-    const std::string SEQ_PREFIX = std::string("\\"+LEDMatrix::SEQ_PREFIX_START)+"\\{";
+    const std::string SEQ_PREFIX = std::string("^\\"+LEDMatrix::SEQ_PREFIX_START)+"\\{";
     const std::string SEQ_POSTFIX = "\\}\\}";
     const std::string SEQ_COLOR = "(0[xX][0-9a-fA-F]{6})";
-    const std::regex RE_CTRL_SEQ_COLOR(SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX);
+    const std::regex RE_CTRL_SEQ_COLOR(SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX, std::regex_constants::ECMAScript | std::regex_constants::match_not_bol);
 
     std::string text = std::string(wtext.begin(), wtext.end());
 
@@ -66,9 +66,12 @@ unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
         // Control sequence not matched, draw this text
         return 0;
     }
+    std::cout << "  size: "<< match.size() <<std::endl;
     if(match.size() < 2){
         return 0;
     }
+    std::wcout << wtext << std::endl;
+	    std::cout << "MATCH: " << match[0] << match[1] << std::endl;
 
     std::string new_color = match[1];
     // Parse hex string to int 
