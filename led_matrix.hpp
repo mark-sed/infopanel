@@ -59,6 +59,8 @@ private:
     uint8_t brightness;  ///< Brightness of the LEDs \in <0, 255>
     ws2811_t ledstring;  ///< Configuration struct
     
+    static const char SEQ_PREFIX_START = '{';
+    unsigned int parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color);
 public:
     static const size_t EVEN_I = 0;
     static const size_t ODD_I = 1;
