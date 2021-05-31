@@ -54,12 +54,20 @@ enum Color : ws2811_led_t {
  */
 class LEDMatrix {
 private:
-    unsigned int width;  ///< Amount of pixels horizontally
-    unsigned int height; ///< Amount of pixels vertically
-    uint8_t brightness;  ///< Brightness of the LEDs \in <0, 255>
-    ws2811_t ledstring;  ///< Configuration struct
+    unsigned int width;       ///< Amount of pixels horizontally
+    unsigned int height;      ///< Amount of pixels vertically
+    uint8_t brightness;       ///< Brightness of the LEDs \in <0, 255>
+    unsigned int text_width;  ///< Width of drawn content (in panel pixels)
+    unsigned int text_height; ///< Height of drawn content (in panel pixels)
+    ws2811_t ledstring;       ///< Configuration struct
     
-    static const char SEQ_PREFIX_START = '{';
+    /**
+     * Parses control sequence
+     * @param wtext Text to be parsed for control sequence, 
+     *              it has to start with the first character of the sequence (substr)
+     * @param color Current drawing color, might be changed if color sequence is matched
+     * @return Offset for text parsing (length of matched sequence)
+     */
     unsigned int parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color);
 public:
     static const size_t EVEN_I = 0;
@@ -81,6 +89,13 @@ public:
      */
     void set_brightness(uint8_t brightness, bool render=false);
 
+    /**
+     * Draws text to canvas (for rendering on the panel)
+     * @note Previous canvas will be cleared
+     * @param text Text to be drawn
+     * @param font Font for the whole text
+     * @param default_color Color to use in case no escape sequence is in the text
+     */
     void draw_text(std::wstring text, MatrixFont font, ws2811_led_t default_color=Color::WHITE);
 
     /**

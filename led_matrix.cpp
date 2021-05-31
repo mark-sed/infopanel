@@ -54,25 +54,23 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
 
 unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     // TODO: Add escape sequence for {{
+    // If the start of escape sequence is changed from '{' then this has to be 
+    //     also done in the draw_text method (checking for begining)
     const std::string SEQ_PREFIX = "^\\{\\{";
     const std::string SEQ_POSTFIX = "\\}\\}";
     const std::string SEQ_COLOR = "(0[xX][0-9a-fA-F]{6})";
     const std::regex RE_CTRL_SEQ_COLOR(SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX);
 
     std::string text = std::string(wtext.begin(), wtext.end());
-	std::cout << "T:" << text << std::endl;
 
     std::smatch match;
     if(!std::regex_search(text, match, RE_CTRL_SEQ_COLOR)){
         // Control sequence not matched, draw this text
         return 0;
     }
-    std::cout << "  size: "<< match.size() <<std::endl;
     if(match.size() < 2){
         return 0;
     }
-    
-	    std::cout << "MATCH: " << match[0] << match[1] << std::endl;
 
     std::string new_color = match[1];
     // Parse hex string to int 
@@ -90,7 +88,7 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     this->pixels[LEDMatrix::EVEN_I].resize(text_max_length+0);
     std::fill(this->pixels[LEDMatrix::ODD_I].begin(), this->pixels[LEDMatrix::ODD_I].end(), Color::BLACK);
     std::fill(this->pixels[LEDMatrix::EVEN_I].begin(), this->pixels[LEDMatrix::EVEN_I].end(), Color::BLACK);
-    
+
     unsigned int odd_i = LEDMatrix::ODD_I;
     unsigned int even_i = LEDMatrix::EVEN_I;
     unsigned int render_pos = 0;
@@ -99,7 +97,6 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
         // Parsing control sequences for colors
         if(text[i] == L'{'){
             i += this->parse_ctrl_seq(text.substr(i), color);
-	    std::cout << "CL: " << color << std::endl;
         }
         // Swap indexes if odd is rendered on even index and vice versa
         if((render_pos/height) % 2){
@@ -131,6 +128,11 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
         }
         render_pos += letter.size() + height*LETTER_SPACE;
     }
+
+    // Set height of the drawn text (1 line)
+    this->text_height = font.get_max_height();
+    // Set width of drawn text
+    this->text_width = render_pos;
 }
 
 void LEDMatrix::test(){
@@ -170,7 +172,7 @@ void LEDMatrix::test(){
     while(true){
         this->render(col);
         col++;
-        if(col >= this->pixels[LEDMatrix::EVEN_I].size()/height){
+        if(col >= this->text_width){
             col = 0;
         }
         usleep(90000);
