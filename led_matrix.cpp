@@ -57,12 +57,12 @@ unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     const std::string SEQ_PREFIX = std::string("^\\"+LEDMatrix::SEQ_PREFIX_START)+"\\{";
     const std::string SEQ_POSTFIX = "\\}\\}";
     const std::string SEQ_COLOR = "(0[xX][0-9a-fA-F]{6})";
-    const std::regex RE_CTRL_SEQ_COLOR(SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX, std::regex_constants::ECMAScript | std::regex_constants::match_not_bol);
+    const std::regex RE_CTRL_SEQ_COLOR((SEQ_PREFIX+SEQ_COLOR+SEQ_POSTFIX));
 
     std::string text = std::string(wtext.begin(), wtext.end());
 
     std::smatch match;
-    if(!std::regex_search(text, match, RE_CTRL_SEQ_COLOR)){
+    if(!std::regex_search(text, match, RE_CTRL_SEQ_COLOR, std::regex_constants::match_not_bol)){
         // Control sequence not matched, draw this text
         return 0;
     }
