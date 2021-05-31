@@ -132,7 +132,7 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     // Set height of the drawn text (1 line)
     this->text_height = font.get_max_height();
     // Set width of drawn text
-    this->text_width = render_pos;
+    this->text_width = render_pos/font.get_max_height();
 }
 
 void LEDMatrix::test(){
@@ -166,7 +166,7 @@ void LEDMatrix::test(){
         usleep(90000);
     }*/
 
-    FontAscii ascii;
+    /*FontAscii ascii;
     draw_text(std::wstring(L"Hello {{0xFF00AA}} World { this is {{0x778800}} colored {{0xFFFFFF}} text."), ascii, Color::RED);
     long col = 0;
     while(true){
@@ -176,15 +176,15 @@ void LEDMatrix::test(){
             col = 0;
         }
         usleep(90000);
-    }
+    }*/
 
-    /*FontAscii ascii;
+    FontAscii ascii;
     auto sc = SimpleClock(std::move(ascii));
     while(true){
         sc.draw(*this);
-        this->render(-7);
+        this->render(-16+this->text_width/2);
         usleep(10*1000*1000);
-    }*/
+    }
 }
 
 void LEDMatrix::render(unsigned int offset){
