@@ -1,6 +1,9 @@
 #ifndef _INFO_PANEL_HPP_
 #define _INFO_PANEL_HPP_
 
+#define INFO_PANEL_VERSION_MAJOR 1
+#define INFO_PANEL_VERSION_MINOR 0
+#define INFO_PANEL_VERSION_PATCH 0
 
 
 #endif

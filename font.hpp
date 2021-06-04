@@ -14,6 +14,7 @@ protected:
     uint8_t max_height;  ///< The height of the biggest character in the font
     uint8_t max_width;   ///< The width of the biggest character in the font
     bool monospace;      ///< If the font is monospace or not
+    const std::string NAME = "Base font";  ///< Name of the font
 
     /**
      * Constructor
@@ -45,6 +46,8 @@ public:
  * Contains only basic ASCII characters + CZ ascii ones
  */
 class FontAscii : public MatrixFont {
+protected:
+    const std::string NAME = "Ascii";
 public:
     /**
      * Constructor
