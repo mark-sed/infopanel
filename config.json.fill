@@ -1,0 +1,19 @@
+{
+    "rest_api": {
+        "vs_currency": "usd",
+        "stocks": {
+            "url_values": "https://finnhub.io/api/v1/quote?",
+            "url_values_key": "your_finnhub_api_key_goes_here",
+            "url_market_open": "https://api.polygon.io/v1/marketstatus/now?",
+            "url_market_open_key": "your_polygon_api_key_goes_here",
+            "symbols": ["INTC", "NIO"] 
+        },
+        "crypto": {
+            "url_values": "https://api.coingecko.com/api/v3/coins/markets?",
+            "symbols": ["bitcoin", "ethereum"]     
+        }
+    },
+    "clock": {
+        "name": "Simple clock"
+    }
+}  
