@@ -17,17 +17,39 @@ ConfigLoader::ConfigLoader(){
 }
 
 void ConfigLoader::reload(){
+    // Load config file
     std::ifstream f(ConfigLoader::PATH);
     std::string conf((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
+    // Parse as a json
     this->json_data = json::parse(conf);
 }
 
-std::string ConfigLoader::get_vs_currency(){
-    return this->json_data["rest_api"]["vs_currency"].get<std::string>();
+std::string ConfigLoader::get_units_currency(){
+    return this->json_data["units"]["currency"].get<std::string>();
+}
+
+bool ConfigLoader::get_units_time24h(){
+    return this->json_data["units"]["time24h"].get<bool>();
 }
 
 std::string ConfigLoader::get_rest_font(){
     return this->json_data["rest_api"]["font"].get<std::string>();
+}
+
+std::string ConfigLoader::get_rest_color_symbol(){
+    return "{{"+this->json_data["rest_api"]["color_symbol"].get<std::string>()+"}}";
+}
+
+std::string ConfigLoader::get_rest_color_price(){
+    return "{{"+this->json_data["rest_api"]["color_price"].get<std::string>()+"}}";
+}
+
+std::string ConfigLoader::get_rest_color_gain(){
+    return "{{"+this->json_data["rest_api"]["color_gain"].get<std::string>()+"}}";
+}
+
+std::string ConfigLoader::get_rest_color_loss(){
+    return "{{"+this->json_data["rest_api"]["color_loss"].get<std::string>()+"}}";
 }
 
 std::string ConfigLoader::get_stocks_url_values(){

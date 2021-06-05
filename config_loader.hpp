@@ -27,8 +27,14 @@ public:
     void reload();
 
     // Getters for config values
-    std::string get_vs_currency();
+    std::string get_units_currency();
+    bool get_units_time24h();
+
     std::string get_rest_font();
+    std::string get_rest_color_symbol();
+    std::string get_rest_color_price();
+    std::string get_rest_color_gain();
+    std::string get_rest_color_loss();
 
     std::string get_stocks_url_values();
     std::string get_stocks_url_values_key();

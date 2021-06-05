@@ -1,7 +1,14 @@
 {
+    "units": {
+        "currency": "usd",
+        "time24h": true
+    },
     "rest_api": {
-        "vs_currency": "usd",
         "font": "Ascii",
+        "color_symbol": "0xFCBA03",
+        "color_price": "0xFCBA03",
+        "color_gain": "0x10AA10",
+        "color_loss": "0xAA1010",
         "stocks": {
             "url_values": "https://finnhub.io/api/v1/quote?",
             "url_values_key": "your_finnhub_api_key_goes_here",
