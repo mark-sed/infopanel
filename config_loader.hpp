@@ -26,8 +26,9 @@ public:
      */
     void reload();
 
-
+    // Getters for config values
     std::string get_vs_currency();
+    std::string get_rest_font();
 
     std::string get_stocks_url_values();
     std::string get_stocks_url_values_key();
@@ -39,6 +40,7 @@ public:
     std::vector<std::string> get_crypto_symbols();
 
     std::string get_clock_name();
+    std::string get_clock_font();
 };
 
 #endif//_CONFIG_LOADER_HPP_

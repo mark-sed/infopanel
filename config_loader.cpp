@@ -26,6 +26,10 @@ std::string ConfigLoader::get_vs_currency(){
     return this->json_data["rest_api"]["vs_currency"].get<std::string>();
 }
 
+std::string ConfigLoader::get_rest_font(){
+    return this->json_data["rest_api"]["font"].get<std::string>();
+}
+
 std::string ConfigLoader::get_stocks_url_values(){
     return this->json_data["rest_api"]["stocks"]["url_values"].get<std::string>();
 }
@@ -56,4 +60,8 @@ std::vector<std::string> ConfigLoader::get_crypto_symbols(){
 
 std::string ConfigLoader::get_clock_name(){
     return this->json_data["clock"]["name"].get<std::string>();
+}
+
+std::string ConfigLoader::get_clock_font(){
+    return this->json_data["clock"]["font"].get<std::string>();
 }

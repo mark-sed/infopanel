@@ -1,6 +1,7 @@
 {
     "rest_api": {
         "vs_currency": "usd",
+        "font": "Ascii",
         "stocks": {
             "url_values": "https://finnhub.io/api/v1/quote?",
             "url_values_key": "your_finnhub_api_key_goes_here",
@@ -14,6 +15,7 @@
         }
     },
     "clock": {
+        "font": "Ascii",
         "name": "Simple clock"
     }
 }  
