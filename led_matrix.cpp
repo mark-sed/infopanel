@@ -116,9 +116,9 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
         int stop = 0;
         for(long j = 0; j < letter.size(); j++){
             // Even columns
-	    this->pixels[even_i][render_pos+j] = letter[j]*color;
+	        this->pixels[even_i][render_pos+j] = letter[j]*color;
             // Odd column
-	    this->pixels[odd_i][render_pos+j] = letter[r]*color;
+	        this->pixels[odd_i][render_pos+j] = letter[r]*color;
             r--;
             if(r < stop){
                 stop += font.get_max_height();
@@ -133,74 +133,6 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     this->text_height = font.get_max_height();
     // Set width of drawn text
     this->text_width = render_pos/font.get_max_height();
-}
-
-void LEDMatrix::test(){
-    const float GOLDEN_RATIO = 0.618033988749895;
-    std::srand(std::time(nullptr));
-    for(int i = 0; i < width*height; i++){
-	// Generate random number in <0, 1>
-        float h = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
-        // Add golden ratio for better value and set it back in the range
-	h += GOLDEN_RATIO;
-	h = std::fmod(h, 1.0);
-	// Convert from hue (HSV) to RGB
-        this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
-    }
-
-    // Draw all characters
-    /*
-    FontAscii ascii;
-    std::wstringstream ss;
-    for(const auto &pair: ascii.letters){
-	ss << pair.first;
-    }
-    draw_text(ss.str(), ascii, Color::RED);
-    long col = 0;
-    while(true){
-        this->render(col);
-        col++;
-        if(col >= this->pixels[LEDMatrix::EVEN_I].size()/height){
-            col = 0;
-        }
-        usleep(90000);
-    }*/
-
-    /*FontAscii ascii;
-    draw_text(std::wstring(L"Hello {{0xFF00AA}} World { this is {{0x778800}} colored {{0xFFFFFF}} text."), ascii, Color::RED);
-    long col = 0;
-    while(true){
-        this->render(col);
-        col++;
-        if(col >= this->text_width){
-            col = 0;
-        }
-        usleep(90000);
-    }*/
-
-    FontAscii ascii;
-    auto sc = SimpleClock(std::move(ascii));
-    while(true){
-        sc.draw(*this);
-        this->render(-16+this->text_width/2);
-        usleep(10*1000*1000);
-    }
-}
-
-void LEDMatrix::render(unsigned int offset){
-    // TODO: Add negative offset for shifting text to right
-    size_t i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
-    
-    std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
-    // Copy data from matrix to ledstring
-    size_t last_i = width*height+offset*height;
-    std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
-    // Clear space after last character
-    if(this->pixels[i].size()-offset*height < width*height){
-        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+this->pixels[i].size()-offset*height, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
-    }
-    // Call ws render to display new data
-    ws2811_render(&this->ledstring);
 }
 
 static uint32_t hsv2rgb(float h, float s, float v){
@@ -247,4 +179,73 @@ static uint32_t hsv2rgb(float h, float s, float v){
     uint32_t G = static_cast<uint32_t>(g*256);
     uint32_t B = static_cast<uint32_t>(b*256);
     return ((R<<16) + (G<<8) + B);
+}
+
+void LEDMatrix::test(){
+    const float GOLDEN_RATIO = 0.618033988749895;
+    std::srand(std::time(nullptr));
+    for(int i = 0; i < width*height; i++){
+        // Generate random number in <0, 1>
+        float h = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
+        // Add golden ratio for better value and set it back in the range
+        h += GOLDEN_RATIO;
+        h = std::fmod(h, 1.0);
+        // Convert from hue (HSV) to RGB
+        this->pixels[0][i] = hsv2rgb(h, 0.99, 0.99);
+    }
+    this->render(0);
+
+    // Draw all characters
+    /*
+    FontAscii ascii;
+    std::wstringstream ss;
+    for(const auto &pair: ascii.letters){
+	ss << pair.first;
+    }
+    draw_text(ss.str(), ascii, Color::RED);
+    long col = 0;
+    while(true){
+        this->render(col);
+        col++;
+        if(col >= this->pixels[LEDMatrix::EVEN_I].size()/height){
+            col = 0;
+        }
+        usleep(90000);
+    }*/
+
+    /*FontAscii ascii;
+    draw_text(std::wstring(L"Hello {{0xFF00AA}} World { this is {{0x778800}} colored {{0xFFFFFF}} text."), ascii, Color::RED);
+    long col = 0;
+    while(true){
+        this->render(col);
+        col++;
+        if(col >= this->text_width){
+            col = 0;
+        }
+        usleep(90000);
+    }*/
+
+    /*FontAscii ascii;
+    auto sc = SimpleClock(std::move(ascii));
+    while(true){
+        sc.draw(*this);
+        this->render(-16+this->text_width/2);
+        usleep(10*1000*1000);
+    }*/
+}
+
+void LEDMatrix::render(unsigned int offset){
+    // TODO: Add negative offset for shifting text to right
+    size_t i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
+    
+    std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+    // Copy data from matrix to ledstring
+    size_t last_i = width*height+offset*height;
+    std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+    // Clear space after last character
+    if(this->pixels[i].size()-offset*height < width*height){
+        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+this->pixels[i].size()-offset*height, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+    }
+    // Call ws render to display new data
+    ws2811_render(&this->ledstring);
 }
