@@ -114,7 +114,7 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
         int prev = font.get_max_height()-1;
         int r = prev;
         int stop = 0;
-        for(long j = 0; j < letter.size(); j++){
+        for(size_t j = 0; j < letter.size(); j++){
             // Even columns
 	        this->pixels[even_i][render_pos+j] = letter[j]*color;
             // Odd column
@@ -184,7 +184,7 @@ static uint32_t hsv2rgb(float h, float s, float v){
 void LEDMatrix::test(){
     const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
-    for(int i = 0; i < width*height; i++){
+    for(unsigned int i = 0; i < width*height; i++){
         // Generate random number in <0, 1>
         float h = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
         // Add golden ratio for better value and set it back in the range
