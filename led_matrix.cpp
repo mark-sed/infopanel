@@ -136,7 +136,7 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
 }
 
 void LEDMatrix::test(){
-    /*const float GOLDEN_RATIO = 0.618033988749895;
+    const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
     for(int i = 0; i < width*height; i++){
 	// Generate random number in <0, 1>
@@ -146,7 +146,7 @@ void LEDMatrix::test(){
 	h = std::fmod(h, 1.0);
 	// Convert from hue (HSV) to RGB
         this->pixels[i] = hsv2rgb(h, 0.99, 0.99);
-    }*/
+    }
 
     // Draw all characters
     /*
