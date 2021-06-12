@@ -4,6 +4,7 @@
 #include <streambuf>
 #include "libs/json.hpp"
 #include "config_loader.hpp"
+#include "ip_exceptions.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -21,7 +22,15 @@ void ConfigLoader::reload(){
     std::ifstream f(ConfigLoader::PATH);
     std::string conf((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
     // Parse as a json
-    this->json_data = json::parse(conf);
+    try{
+        this->json_data = json::parse(conf);
+    }catch(json::exception &e){
+        // Error loading config file, abort!
+        Error::fatal_error(Error::ErrorCode::CONFIGURATION, 
+                           "Cannot load or parse a configuration file", 
+                           e.what(), 
+                           "Make sure that you have copied and filled in the 'config.json.fill' file and saved it as 'config.json'");
+    }
 }
 
 std::string ConfigLoader::get_units_currency(){
