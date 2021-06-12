@@ -5,6 +5,10 @@ void APIStocks::draw(LEDMatrix &matrix){
 
 }
 
+bool APIStocks::is_active() {
+    
+}
+
 void APICrypto::draw(LEDMatrix &matrix){
 
 }

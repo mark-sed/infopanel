@@ -182,7 +182,7 @@ static uint32_t hsv2rgb(float h, float s, float v){
 }
 
 void LEDMatrix::test(){
-    const float GOLDEN_RATIO = 0.618033988749895;
+    /*const float GOLDEN_RATIO = 0.618033988749895;
     std::srand(std::time(nullptr));
     for(unsigned int i = 0; i < width*height; i++){
         // Generate random number in <0, 1>
@@ -193,7 +193,7 @@ void LEDMatrix::test(){
         // Convert from hue (HSV) to RGB
         this->pixels[0][i] = hsv2rgb(h, 0.99, 0.99);
     }
-    this->render(0);
+    this->render(0);*/
 
     // Draw all characters
     /*
@@ -225,13 +225,13 @@ void LEDMatrix::test(){
         usleep(90000);
     }*/
 
-    /*FontAscii ascii;
+    FontAscii ascii;
     auto sc = SimpleClock(std::move(ascii));
     while(true){
         sc.draw(*this);
         this->render(-16+this->text_width/2);
         usleep(10*1000*1000);
-    }*/
+    }
 }
 
 void LEDMatrix::render(unsigned int offset){

@@ -14,6 +14,13 @@ public:
      * Method for all the REST APIs to draw text to led matrix
      */
     virtual void draw(LEDMatrix &matrix) = 0;
+
+    /**
+     * Returns true if the API is active
+     * Mainly meant to be used by APIs for stock market and such -
+     * to check if it's open (if there is an event...)
+     */
+    virtual bool is_active() { return true; };
 };
 
 /**
@@ -22,6 +29,7 @@ public:
 class APIStocks : public RestAPI {
 public:
     void draw(LEDMatrix &matrix) override;
+    bool is_active() override;
 };
 
 /**

@@ -1,6 +1,9 @@
 #ifndef _IP_EXCEPTIONS_HPP_
 #define _IP_EXCEPTIONS_HPP_
 
+/**
+ * Namespace containing error handeling resources
+ */
 namespace Error {
 
     /**
