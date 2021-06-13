@@ -13,6 +13,7 @@ int main(int argc, char *argv[]){
     
     APIStocks s(l);
     s.draw(matrix);
+    s.render(0);
     
     return 0;
 }
