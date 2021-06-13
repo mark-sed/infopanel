@@ -97,6 +97,8 @@ public:
      * @param default_color Color to use in case no escape sequence is in the text
      */
     void draw_text(std::wstring text, MatrixFont font, ws2811_led_t default_color=Color::WHITE);
+    
+    void draw_text(std::string text, MatrixFont font, ws2811_led_t default_color=Color::WHITE);
 
     /**
      * Renders drawn data to the LED matrix

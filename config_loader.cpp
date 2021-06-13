@@ -61,12 +61,16 @@ std::string ConfigLoader::get_rest_color_loss(){
     return "{{"+this->json_data["rest_api"]["color_loss"].get<std::string>()+"}}";
 }
 
+std::string ConfigLoader::get_rest_color_neutral(){
+    return "{{"+this->json_data["rest_api"]["color_neutral"].get<std::string>()+"}}";
+}
+
 std::string ConfigLoader::get_stocks_url_values(){
     return this->json_data["rest_api"]["stocks"]["url_values"].get<std::string>();
 }
 
 std::string ConfigLoader::get_stocks_url_values_key(){
-    return this->json_data["rest_api"]["stocks"]["url_values_keys"].get<std::string>();
+    return this->json_data["rest_api"]["stocks"]["url_values_key"].get<std::string>();
 }
 
 std::string ConfigLoader::get_stocks_url_market_open(){

@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include "ip_exceptions.hpp" 
 
+bool Warning::WARNING_MSGS_ON = true;
+
 const char *Error::get_code_name(Error::ErrorCode c){
     const char *NAMES[] = {
         "none",
@@ -24,4 +26,14 @@ const char *Error::get_code_name(Error::ErrorCode c){
         std::cerr << "NOTE: " << tip << "." << std::endl;
     }
     std::exit(return_code);
+}
+
+void Warning::warning(const char *msg, const char *extra){
+    if(Warning::WARNING_MSGS_ON){
+        std::cout << "WARNING: " << msg << ".";
+        if(extra[0] != '\0'){
+            std::cout << " (" << extra << ")";
+        }
+        std::cout << std::endl;
+    }
 }

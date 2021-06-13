@@ -2,10 +2,9 @@
 #define _IP_EXCEPTIONS_HPP_
 
 /**
- * Namespace containing error handeling resources
+ * Namespace containing error handling resources
  */
 namespace Error {
-
     /**
      * Holds error codes for exiting application
      */
@@ -30,6 +29,20 @@ namespace Error {
      * @param tip A message of what could have caused this error. By default this is empty
      */
     [[ noreturn ]] void fatal_error(ErrorCode return_code, const char *msg, const char *what, const char *tip);
+}
+
+/**
+ * Namespace containing warning handling resources
+ */
+namespace Warning {
+    extern bool WARNING_MSGS_ON;  ///< If true, warning messages will be printed out
+
+    /**
+     * Prints our warning message to stdout
+     * @param msg Message to be printed
+     * @param extra Additional info like what() or returned data
+     */
+    void warning(const char *msg, const char *extra);
 }
 
 #endif//_IP_EXCEPTIONS_HPP_

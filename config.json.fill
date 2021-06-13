@@ -9,6 +9,7 @@
         "color_price": "0xFCBA03",
         "color_gain": "0x10AA10",
         "color_loss": "0xAA1010",
+        "color_neutral": "0xFCBA03",
         "stocks": {
             "url_values": "https://finnhub.io/api/v1/quote?",
             "url_values_key": "your_finnhub_api_key_goes_here",

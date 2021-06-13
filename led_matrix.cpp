@@ -4,6 +4,9 @@
 #include <cmath>
 #include <sstream>
 #include <regex>
+#include <locale>
+#include <codecvt>
+#include <string>
 #include "font.hpp"
 #include "led_matrix.hpp"
 #include "clock.hpp"
@@ -133,6 +136,12 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     this->text_height = font.get_max_height();
     // Set width of drawn text
     this->text_width = render_pos/font.get_max_height();
+}
+
+void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t default_color){
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring wide = converter.from_bytes(text);
+    draw_text(wide, font, default_color);
 }
 
 static uint32_t hsv2rgb(float h, float s, float v){
