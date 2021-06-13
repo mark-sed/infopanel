@@ -11,6 +11,8 @@
 #include "led_matrix.hpp"
 #include "clock.hpp"
 
+#include "config_loader.hpp"
+#include "rest_api.hpp"
 #include <iostream>
 #include <unistd.h>
 
@@ -234,12 +236,22 @@ void LEDMatrix::test(){
         usleep(90000);
     }*/
 
-    FontAscii ascii;
+    /*FontAscii ascii;
     auto sc = SimpleClock(std::move(ascii));
     while(true){
         sc.draw(*this);
         this->render(-16+this->text_width/2);
         usleep(10*1000*1000);
+    }*/
+
+    ConfigLoader l;
+    
+    APIStocks s(l);
+    
+    while(true){
+        s.draw(*this);
+        this->render(0);
+        usleep(5*60*1000*1000);
     }
 }
 

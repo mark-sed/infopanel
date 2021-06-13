@@ -9,11 +9,7 @@
 
 int main(int argc, char *argv[]){
     LEDMatrix matrix(32, 8, 1);
-    ConfigLoader l;
-    
-    APIStocks s(l);
-    s.draw(matrix);
-    matrix.render(0);
+    matrix.test();
     
     return 0;
 }
