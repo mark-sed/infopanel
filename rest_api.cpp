@@ -103,6 +103,7 @@ std::wstring APIStocks::text(){
     std::stringstream text;
     // Get values of each symbol (finnhub allowes only 1 symbol to be quoted at a time)
     for(std::string sym : symbols){
+        // TODO: Work with currency (currently only USD)
         // TODO: Add delay in case there are more than 30 request (limit is 30 calls per minute)
         auto r = GET("https://finnhub.io/api/v1/quote?symbol="+sym+"&token="+key);
         json data;
@@ -168,5 +169,57 @@ bool APIStocks::is_active() {
 }
 
 std::wstring APICrypto::text(){
-    return L"";
+    const std::string SEPARATOR = "   ";
+    const std::string GAIN_SYM = "+";
+    const std::string LOSS_SYM = "";
+    std::vector<std::string> symbols = this->conf.get_crypto_symbols();
+    std::string currency = this->conf.get_units_currency();
+    std::string color_text = this->conf.get_rest_color_symbol();
+    std::string color_gain = this->conf.get_rest_color_gain();
+    std::string color_loss = this->conf.get_rest_color_loss();
+    std::string color_price = this->conf.get_rest_color_price();
+    std::string color_neutral = this->conf.get_rest_color_neutral();
+    
+    std::string color_change = color_neutral;
+    std::stringstream text;
+    // TODO: Handle the data better than getting 250 best coins
+    auto r = GET("https://api.coingecko.com/api/v3/coins/markets?vs_currency="+currency+"&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    json data;
+    std::string r_str = r.get();
+    try{
+        data = json::parse(r_str);
+    }catch(json::exception &e){
+        Warning::warning(std::string("An error occured when parsing response JSON in APICrypto").c_str(), 
+                         std::string("Response received: "+r_str).c_str());
+    }
+    for(std::string sym : symbols){
+        std::string percentage = "N/A";
+        std::string curr_price = "N/A";
+        std::string change_symbol = "";
+        for(auto coin : data){
+            if(to_upper(coin["id"]) == to_upper(sym) || to_upper(coin["symbol"]) == to_upper(sym)){
+                if(coin.count("current_price") == 0 || coin.count("price_change_percentage_24h") == 0){
+                    Warning::warning(std::string("Missing key in response JSON for symbol '"+sym+"' in APICrypto").c_str(), 
+                                    std::string("Response received: "+coin.dump()).c_str());
+                    continue;
+                }
+
+                float fcurr_p = coin["current_price"].get<float>();
+                float fperc = coin["price_change_percentage_24h"].get<float>();
+                if(fperc > 0.0f){
+                    color_change = color_gain;
+                    change_symbol = GAIN_SYM;
+                }
+                else{
+                    color_change = color_loss;
+                    change_symbol = LOSS_SYM;
+                }
+                curr_price = format_price(fcurr_p);
+                percentage = format_percentage(fperc);
+            }
+        }
+        // TODO: Add possibility to display dolar/euro... symbol as well
+        text << color_text << sym << " " << color_change << change_symbol << percentage << " %" << color_price << "(" << curr_price << ")" << color_text << SEPARATOR;
+    }
+    return to_wstring(text.str());
 }

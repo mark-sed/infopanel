@@ -7,6 +7,8 @@
 #include <locale>
 #include <codecvt>
 #include <string>
+#include <algorithm>
+#include <cctype>
 #include "font.hpp"
 #include "led_matrix.hpp"
 #include "clock.hpp"
@@ -20,6 +22,12 @@ std::wstring to_wstring(std::string text){
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring wide = converter.from_bytes(text);
     return wide;
+}
+
+std::string to_upper(std::string text){
+    std::string outs(text.length(), '\0');
+    std::transform(text.begin(), text.end(), outs.begin(), ::toupper);
+    return outs;
 }
 
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness) : 
@@ -259,13 +267,13 @@ void LEDMatrix::test(){
     APICrypto c(l);
     FontAscii ascii;
     long col = 0;
-    std::wstring text = s.text() + c.text();
+    std::wstring text = c.text() + s.text();
     this->draw_text(text, ascii);
     while(true){
         this->render(col);
         col++;
         if(col >= this->text_width){
-            text = s.text() + c.text();
+            text = c.text() + s.text();
             this->draw_text(text, ascii);
             col = 0;
         }
