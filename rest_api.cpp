@@ -73,7 +73,7 @@ static std::string format_price(float price){
         price /= 1000;
     }
 
-    ss << std::fixed << std::setprecision(precision) << price;
+    ss << std::fixed << std::setprecision(precision) << price << postfix;
     return ss.str();
 }
 
