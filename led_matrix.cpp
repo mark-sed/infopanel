@@ -247,11 +247,16 @@ void LEDMatrix::test(){
     ConfigLoader l;
     
     APIStocks s(l);
-    
+    long col = 0;
+    s.draw(*this);
     while(true){
-        s.draw(*this);
         this->render(0);
-        usleep(5*60*1000*1000);
+        col++;
+        if(col >= this->text_width){
+            s.draw(*this);
+            col = 0;
+        }
+        usleep(90000);
     }
 }
 
