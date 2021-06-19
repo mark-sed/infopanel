@@ -16,6 +16,12 @@
 #include <iostream>
 #include <unistd.h>
 
+std::wstring to_wstring(std::string text){
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring wide = converter.from_bytes(text);
+    return wide;
+}
+
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness) : 
                      width(width), height(height), brightness(brightness), 
                      pixels{std::vector<ws2811_led_t>(width*height), std::vector<ws2811_led_t>(width*height)}{ 
@@ -146,9 +152,7 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
 }
 
 void LEDMatrix::draw_text(std::string text, MatrixFont font, ws2811_led_t default_color){
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring wide = converter.from_bytes(text);
-    draw_text(wide, font, default_color);
+    draw_text(to_wstring(text), font, default_color);
 }
 
 static uint32_t hsv2rgb(float h, float s, float v){
@@ -252,13 +256,17 @@ void LEDMatrix::test(){
     ConfigLoader l;
     
     APIStocks s(l);
+    APICrypto c(l);
+    FontAscii ascii;
     long col = 0;
-    s.draw(*this);
+    std::wstring text = s.text() + c.text();
+    this->draw_text(text, ascii);
     while(true){
         this->render(col);
         col++;
         if(col >= this->text_width){
-            s.draw(*this);
+            text = s.text() + c.text();
+            this->draw_text(text, ascii);
             col = 0;
         }
         usleep(90000);

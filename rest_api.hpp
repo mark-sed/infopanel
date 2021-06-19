@@ -31,8 +31,9 @@ protected:
 public:
     /**
      * Method for all the REST APIs to draw text to led matrix
+     * @return formatted text for drawing on a matrix
      */
-    virtual void draw(LEDMatrix &matrix) = 0;
+    virtual std::wstring text() = 0;
 
     /**
      * Returns true if the API is active
@@ -48,7 +49,7 @@ public:
 class APIStocks : public RestAPI {
 public:
     APIStocks(ConfigLoader conf) : RestAPI(conf) {};
-    void draw(LEDMatrix &matrix) override;
+    std::wstring text() override;
     bool is_active() override;
 };
 
@@ -58,7 +59,7 @@ public:
 class APICrypto : public RestAPI {
 public:
     APICrypto(ConfigLoader conf) : RestAPI(conf) {};
-    void draw(LEDMatrix &matrix) override;
+    std::wstring text() override;
 };
 
 #endif//_REST_API_HPP_

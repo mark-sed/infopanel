@@ -10,6 +10,7 @@
 #include "libs/rpi_ws281x/ws2811.h"
 #include "font.hpp"
 
+std::wstring to_wstring(std::string text);
 /** 
  * Configuration namespace, holds all needed values for HW configuration
  */

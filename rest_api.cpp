@@ -87,7 +87,7 @@ static std::string format_percentage(float percentage){
     return ss.str();
 }
 
-void APIStocks::draw(LEDMatrix &matrix){
+std::wstring APIStocks::text(){
     const std::string SEPARATOR = "   ";
     const std::string GAIN_SYM = "+";
     const std::string LOSS_SYM = "";
@@ -142,9 +142,7 @@ void APIStocks::draw(LEDMatrix &matrix){
         // TODO: Add possibility to display dolar/euro... symbol as well
         text << color_text << sym << " " << color_change << change_symbol << percentage << " %" << color_price << "(" << curr_price << ")" << color_text << SEPARATOR;
     }
-    // FIXME: Pass in font based on config
-    FontAscii font;
-    matrix.draw_text(text.str(), font);
+    return to_wstring(text.str());
 }
 
 bool APIStocks::is_active() {
@@ -169,6 +167,6 @@ bool APIStocks::is_active() {
     return data["market"].get<std::string>() == std::string("open");
 }
 
-void APICrypto::draw(LEDMatrix &matrix){
-
+std::wstring APICrypto::text(){
+    return L"";
 }
