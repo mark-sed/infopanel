@@ -89,6 +89,8 @@ static std::string format_percentage(float percentage){
 
 void APIStocks::draw(LEDMatrix &matrix){
     const std::string SEPARATOR = "   ";
+    const std::string GAIN_SYM = "+";
+    const std::string LOSS_SYM = "";
     std::vector<std::string> symbols = this->conf.get_stocks_symbols();
     std::string key = this->conf.get_stocks_url_values_key();
     std::string color_text = this->conf.get_rest_color_symbol();
@@ -107,6 +109,7 @@ void APIStocks::draw(LEDMatrix &matrix){
         std::string r_str = r.get();
         std::string percentage = "N/A";
         std::string curr_price = "N/A";
+        std::string change_symbol = "";
         try{
             data = json::parse(r_str);
 
@@ -123,9 +126,11 @@ void APIStocks::draw(LEDMatrix &matrix){
                 fperc = ((fcurr_p - fprev_p)/fprev_p)*100;
                 if(fperc > 0.0f){
                     color_change = color_gain;
+                    change_symbol = GAIN_SYM;
                 }
                 else{
                     color_change = color_loss;
+                    change_symbol = LOSS_SYM;
 		        }
             }
             curr_price = format_price(fcurr_p);
@@ -135,12 +140,10 @@ void APIStocks::draw(LEDMatrix &matrix){
                             std::string("Response received: "+r_str).c_str());
         }
         // TODO: Add possibility to display dolar/euro... symbol as well
-        text << color_text << sym << " " << color_change << percentage << " %" << color_price << "(" << curr_price << ")" << color_text << SEPARATOR;
+        text << color_text << sym << " " << color_change << change_symbol << percentage << " %" << color_price << "(" << curr_price << ")" << color_text << SEPARATOR;
     }
     // FIXME: Pass in font based on config
     FontAscii font;
-
-    std::cout << text.str() << "\n";
     matrix.draw_text(text.str(), font);
 }
 
