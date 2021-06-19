@@ -104,7 +104,6 @@ void APIStocks::draw(LEDMatrix &matrix){
         // TODO: Add delay in case there are more than 30 request (limit is 30 calls per minute)
         auto r = GET("https://finnhub.io/api/v1/quote?symbol="+sym+"&token="+key);
         json data;
-        r.wait();
         std::string r_str = r.get();
         std::string percentage = "N/A";
         std::string curr_price = "N/A";
