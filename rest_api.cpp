@@ -104,6 +104,7 @@ void APIStocks::draw(LEDMatrix &matrix){
         // TODO: Add delay in case there are more than 30 request (limit is 30 calls per minute)
         auto r = GET("https://finnhub.io/api/v1/quote?symbol="+sym+"&token="+key);
         json data;
+        r.wait();
         std::string r_str = r.get();
         std::string percentage = "N/A";
         std::string curr_price = "N/A";
@@ -124,9 +125,9 @@ void APIStocks::draw(LEDMatrix &matrix){
                 if(fperc > 0.0f){
                     color_change = color_gain;
                 }
-		else{
+                else{
                     color_change = color_loss;
-		}
+		        }
             }
             curr_price = format_price(fcurr_p);
             percentage = format_percentage(fperc);
@@ -139,6 +140,7 @@ void APIStocks::draw(LEDMatrix &matrix){
     }
     // FIXME: Pass in font based on config
     FontAscii font;
+
     std::cout << text.str() << "\n";
     matrix.draw_text(text.str(), font);
 }
