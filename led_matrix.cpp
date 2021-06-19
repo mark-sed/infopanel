@@ -132,10 +132,10 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
             }
         }
         render_pos += letter.size();
-        if(std::iswspace(text[i])){ 
-            // Add led spacing in between numbers and letter
-            // but not whitespaces and symbols
-            //render_pos += height*LETTER_SPACE;
+        if(!std::iswspace(text[i]) && i+1 < text.length() && !std::iswspace(text[i+1])){ 
+            // Add spacing in between numbers and letter
+            // but not whitespaces and symbols nor letters after which is space
+            render_pos += height*LETTER_SPACE;
         }
     }
 
