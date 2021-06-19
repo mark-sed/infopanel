@@ -121,6 +121,12 @@ void APIStocks::draw(LEDMatrix &matrix){
             float fperc = 0.0f;
             if(fprev_p != 0.0f){
                 fperc = ((fcurr_p - fprev_p)/fprev_p)*100;
+                if(fperc > 0.0f){
+                    color_change = color_gain;
+                }
+		else{
+                    color_change = color_loss;
+		}
             }
             curr_price = format_price(fcurr_p);
             percentage = format_percentage(fperc);
@@ -133,6 +139,7 @@ void APIStocks::draw(LEDMatrix &matrix){
     }
     // FIXME: Pass in font based on config
     FontAscii font;
+    std::cout << text.str() << "\n";
     matrix.draw_text(text.str(), font);
 }
 

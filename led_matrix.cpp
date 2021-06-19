@@ -250,7 +250,7 @@ void LEDMatrix::test(){
     long col = 0;
     s.draw(*this);
     while(true){
-        this->render(0);
+        this->render(col);
         col++;
         if(col >= this->text_width){
             s.draw(*this);
