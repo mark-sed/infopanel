@@ -115,6 +115,9 @@ public:
      */
     void test();
     
+    // Getters
+    unsigned int get_text_width();
+    unsigned int get_text_height();
 };
 
  #endif//_LED_MATRIX_HPP_

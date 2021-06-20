@@ -296,3 +296,11 @@ void LEDMatrix::render(unsigned int offset){
     // Call ws render to display new data
     ws2811_render(&this->ledstring);
 }
+
+unsigned int LEDMatrix::get_text_width(){
+    return this->text_width;
+}
+
+unsigned int LEDMatrix::get_text_height(){
+    return this->text_height;
+}
