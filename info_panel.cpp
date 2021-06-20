@@ -21,6 +21,7 @@ bool is_market_open(){
 void wall_clock() {
     FontAscii ascii;
     auto sc = SimpleClock(std::move(ascii));
+    sc.draw(matrix);
     int pos = -16+matrix.get_text_width()/2;
     while(true){
         sc.draw(matrix);
