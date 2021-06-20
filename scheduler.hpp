@@ -6,6 +6,8 @@
 using Task = void(*)();
 using IsActiveFunction = bool(*)();
 
+// TODO: Add delays
+
 class Pipeline {
 private:
     std::vector<Task> tasks;

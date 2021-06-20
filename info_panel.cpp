@@ -13,20 +13,18 @@ LEDMatrix matrix(32, 8, 1);
 ConfigLoader l;
 APIStocks api_stocks(l);
 APICrypto api_crypto(l);
+FontAscii ascii;
+auto sc = SimpleClock(std::move(ascii));
 
 bool is_market_open(){
     return api_stocks.is_active();
 }
 
 void wall_clock() {
-    FontAscii ascii;
-    auto sc = SimpleClock(std::move(ascii));
-    while(true){
-        sc.draw(matrix);
-        int pos = -16+matrix.get_text_width()/2;
-        matrix.render(pos);
-        usleep(10*1000*1000);
-    }
+    sc.draw(matrix);
+    int pos = -16+matrix.get_text_width()/2;
+    matrix.render(pos);
+    usleep(sc.delay);
 }
 
 int main(int argc, char *argv[]){
@@ -42,7 +40,12 @@ int main(int argc, char *argv[]){
     // Scheduler
     scheduler.push(p_market_open);
     scheduler.push(p_market_closed);
-    scheduler.execute();
+
+    // Main loop
+    // Just execute scheduler
+    while(true){
+        scheduler.execute();
+    }
 
     return 0;
 }

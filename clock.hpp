@@ -18,13 +18,14 @@ protected:
      * Constructor
      * @param font Font for the clock text
      */
-    Clock(MatrixFont font) : font(font) {};
+    Clock(MatrixFont font, unsigned delay) : font(font), delay(delay) {};
 
     /**
      * Function for derived classes to get current time
      */
     const std::tm* get_time_now();
 public:
+    unsigned int delay; ///< Recommended delay for clock in us
 
     /**
      * Draw method (draws clock to LEDMatrix)
@@ -43,7 +44,7 @@ protected:
     const std::string NAME = "Simple clock";
 public:
 
-    SimpleClock(MatrixFont font) : Clock(font) {};
+    SimpleClock(MatrixFont font) : Clock(font, 10'000'000) {};
     void draw(LEDMatrix &matrix) override;
 };
 
