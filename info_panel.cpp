@@ -32,14 +32,19 @@ void crypto_data(){
 }
 
 void crypto_market_data(){
+    // TODO: Add check for updating data instead of doing it all the time
     long col = 0;
     std::wstring text = api_crypto.text() + api_stocks.text();
     matrix.draw_text(text, ascii);
-    do{
+    while(true){
         matrix.render(col);
         col++;
+        if(col >= matrix.get_text_width()){
+            col = 0;
+        }
         usleep(90000);
-    }while(col < matrix.get_text_width());
+    }
+}
 }
 
 int main(int argc, char *argv[]){
@@ -54,7 +59,7 @@ int main(int argc, char *argv[]){
     p_market_closed.push(crypto_market_data);
     
     // Scheduler
-    scheduler.push(p_market_open);
+    //scheduler.push(p_market_open);
     scheduler.push(p_market_closed);
 
     // Main loop
