@@ -43,7 +43,6 @@ class SimpleClock : public Clock {
 protected:
     const std::string NAME = "Simple clock";
 public:
-
     SimpleClock(MatrixFont font) : Clock(font, 10'000'000) {};
     void draw(LEDMatrix &matrix) override;
 };

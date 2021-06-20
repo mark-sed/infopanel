@@ -27,6 +27,21 @@ void wall_clock() {
     usleep(sc.delay);
 }
 
+void crypto_data(){
+
+}
+
+void crypto_market_data(){
+    long col = 0;
+    std::wstring text = api_crypto.text() + api_stocks.text();
+    matrix.draw_text(text, ascii);
+    do{
+        matrix.render(col);
+        col++;
+        usleep(90000);
+    }while(col < matrix.get_text_width());
+}
+
 int main(int argc, char *argv[]){
     Scheduler scheduler;
     // Market open pipeline
@@ -36,6 +51,7 @@ int main(int argc, char *argv[]){
     // Market closed pipeline
     Pipeline p_market_closed([]() -> bool{return true;});
     p_market_closed.push(wall_clock);
+    p_market_closed.push(crypto_market_data);
     
     // Scheduler
     scheduler.push(p_market_open);
