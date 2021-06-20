@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
     
     // Market closed pipeline
     Pipeline p_market_closed([]() -> bool{return true;});
-    p_market_open.push(wall_clock);
+    p_market_closed.push(wall_clock);
     
     // Scheduler
     scheduler.push(p_market_open);
