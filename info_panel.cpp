@@ -32,7 +32,18 @@ void crypto_data(){
 }
 
 void crypto_market_data(){
-    scroll_crypto_stocks(matrix, conf, api_crypto, api_stocks, ascii);
+    // TODO: Add check for updating data instead of doing it all
+    // FIXME: Does not render (no leds are on)
+    APIStocks stocks(conf);
+    APICrypto crypto(conf);
+    long col = 0;
+    std::wstring text = crypto.text() + stocks.text();
+    matrix.draw_text(text, font);
+    do{
+        matrix.render(col);
+        col++;
+        usleep(90000);
+    }while(col < static_cast<long>(matrix.get_text_width()));
 }
 
 int main(int argc, char *argv[]){

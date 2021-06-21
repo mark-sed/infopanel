@@ -66,6 +66,6 @@ public:
 };
 
 
-void scroll_crypto_stocks(LEDMatrix matrix, ConfigLoader conf, APICrypto crypto, APIStocks stocks, MatrixFont font);
+//void scroll_crypto_stocks(LEDMatrix matrix, ConfigLoader conf, APICrypto crypto, APIStocks stocks, MatrixFont font);
 
 #endif//_REST_API_HPP_
