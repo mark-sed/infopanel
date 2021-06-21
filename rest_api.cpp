@@ -11,8 +11,22 @@
 #include "libs/json.hpp"
 #include "rest_api.hpp"
 #include "ip_exceptions.hpp"
+#include "font.hpp"
 
 using json = nlohmann::json;
+
+void scroll_crypto_stocks(LEDMatrix matrix, ConfigLoader conf, APICrypto crypto, APIStocks stocks, MatrixFont font){
+    // TODO: Add check for updating data instead of doing it all
+    // FIXME: Does not render (no leds are on)
+    long col = 0;
+    std::wstring text = crypto.text() + stocks.text();
+    matrix.draw_text(text, font);
+    do{
+        matrix.render(col);
+        col++;
+        usleep(90000);
+    }while(col < static_cast<long>(matrix.get_text_width()));
+}
 
 // More: https://stackoverflow.com/a/41974669
 std::future<std::string> RestAPI::POST(std::string const& url, std::string const& body) {

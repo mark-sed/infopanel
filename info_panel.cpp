@@ -10,9 +10,9 @@
 #include "scheduler.hpp"
 
 LEDMatrix matrix(32, 8, 1);
-ConfigLoader l;
-APIStocks api_stocks(l);
-APICrypto api_crypto(l);
+ConfigLoader conf;
+APIStocks api_stocks(conf);
+APICrypto api_crypto(conf);
 FontAscii ascii;
 auto sc = SimpleClock(std::move(ascii));
 
@@ -32,17 +32,7 @@ void crypto_data(){
 }
 
 void crypto_market_data(){
-    // TODO: Add check for updating data instead of doing it all
-
-    // FIXME: Does not render (no leds are on)
-    long col = 0;
-    std::wstring text = api_crypto.text() + api_stocks.text();
-    matrix.draw_text(text, ascii);
-    do{
-        matrix.render(col);
-        col++;
-        usleep(90000);
-    }while(col < static_cast<long>(matrix.get_text_width()));
+    scroll_crypto_stocks(matrix, conf, api_crypto, api_stocks, ascii);
 }
 
 int main(int argc, char *argv[]){

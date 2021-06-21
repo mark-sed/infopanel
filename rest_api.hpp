@@ -2,8 +2,11 @@
 #define _REST_API_HPP_
 
 #include <future>
+#include <unistd.h>
 #include "led_matrix.hpp"
 #include "config_loader.hpp"
+#include "font.hpp"
+#include "rest_api.hpp"
 
 /**
  * Base class for REST APIs
@@ -61,5 +64,8 @@ public:
     APICrypto(ConfigLoader conf) : RestAPI(conf) {};
     std::wstring text() override;
 };
+
+
+void scroll_crypto_stocks(LEDMatrix matrix, ConfigLoader conf, APICrypto crypto, APIStocks stocks, MatrixFont font);
 
 #endif//_REST_API_HPP_
