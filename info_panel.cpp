@@ -50,10 +50,9 @@ void crypto_data(){
 void crypto_stocks_data(){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
+    static std::wstring text;
 
-    // TODO: Add check for updating data instead of doing it all
     long col = -MATRIX_WIDTH;
-    std::wstring text;
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
         text = api_crypto.text() + api_stocks.text();
         last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
