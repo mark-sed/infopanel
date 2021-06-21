@@ -288,6 +288,10 @@ void LEDMatrix::render(int offset){
     std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
     // Copy data from matrix to ledstring
     long last_i = width*height+offset*height;
+    // Clear space before first character if offset is negative
+    if(offset < 0){
+        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+(-1*offset)*height, Color::BLACK);
+    }
     std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
     // Clear space after last character
     if(this->pixels[i].size()-offset*height < width*height){
