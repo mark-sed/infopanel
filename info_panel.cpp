@@ -59,15 +59,18 @@ void crypto_stocks_data(){
 int main(int argc, char *argv[]){
     Scheduler scheduler;
     // Market open pipeline
+    Task wc_open_task(wall_clock, 10'000);
+    Task crst_task(crypto_stocks_data, 0);
     Pipeline p_market_open(is_market_open);
-    p_market_open.push(wall_clock);
-    // TODO: Add time for how long the task should run
-    p_market_open.push(crypto_stocks_data);
+    p_market_open.push(wc_open_task);
+    p_market_open.push(crst_task);
     
     // Market closed pipeline
+    Task wc_closed_task(wall_clock, 1'000*60*10); // 10 mins of clock
+    Task crypto_task(crypto_data, 0);
     Pipeline p_market_closed([]() -> bool{return true;});
-    p_market_closed.push(wall_clock);
-    //p_market_closed.push(crypto_data);
+    p_market_closed.push(wc_closed_task);
+    p_market_closed.push(crypto_task);
     
     // Scheduler
     scheduler.push(p_market_open);
