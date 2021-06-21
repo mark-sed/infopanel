@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <unistd.h>
+#include <chrono>
 #include "info_panel.hpp"
 #include "led_matrix.hpp"
 #include "clock.hpp"
@@ -13,6 +14,7 @@
 // TODO: Read from config
 #define MATRIX_WIDTH 32
 #define MATRIX_HEIGHT 8
+#define MARKET_UPDATE_TIME_MS milliseconds(10*60*1000)
 
 LEDMatrix matrix(MATRIX_WIDTH, MATRIX_HEIGHT, 1);
 ConfigLoader conf;
@@ -35,6 +37,7 @@ void wall_clock() {
 
 void crypto_data(){
     long col = -MATRIX_WIDTH;
+    // Because this is run 1 time every 10 minutes it's ok to request data everytime
     std::wstring text = api_crypto.text();
     matrix.draw_text(text, ascii);
     do{
@@ -45,9 +48,16 @@ void crypto_data(){
 }
 
 void crypto_stocks_data(){
+    using namespace std::chrono;
+    static milliseconds last_time = milliseconds(0);
+
     // TODO: Add check for updating data instead of doing it all
     long col = -MATRIX_WIDTH;
-    std::wstring text = api_crypto.text() + api_stocks.text();
+    std::wstring text;
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
+        text = api_crypto.text() + api_stocks.text();
+        last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    }
     matrix.draw_text(text, ascii);
     do{
         matrix.render(col);
