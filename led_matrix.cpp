@@ -103,8 +103,8 @@ void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t defau
     // TODO: Make this place in spacers if max_height != height?
     const unsigned int LETTER_SPACE = 1;
     size_t text_max_length = text.length()*font.get_max_width()*this->height + text.length()*this->height*LETTER_SPACE;
-    this->pixels[LEDMatrix::ODD_I].resize(text_max_length+0);
-    this->pixels[LEDMatrix::EVEN_I].resize(text_max_length+0);
+    this->pixels[LEDMatrix::ODD_I].resize(text_max_length);
+    this->pixels[LEDMatrix::EVEN_I].resize(text_max_length);
     std::fill(this->pixels[LEDMatrix::ODD_I].begin(), this->pixels[LEDMatrix::ODD_I].end(), Color::BLACK);
     std::fill(this->pixels[LEDMatrix::EVEN_I].begin(), this->pixels[LEDMatrix::EVEN_I].end(), Color::BLACK);
 
@@ -281,13 +281,13 @@ void LEDMatrix::test(){
     }
 }
 
-void LEDMatrix::render(unsigned int offset){
+void LEDMatrix::render(int offset){
     // TODO: Add negative offset for shifting text to right
-    size_t i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
+    long i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
     
     std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
     // Copy data from matrix to ledstring
-    size_t last_i = width*height+offset*height;
+    long last_i = width*height+offset*height;
     std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
     // Clear space after last character
     if(this->pixels[i].size()-offset*height < width*height){

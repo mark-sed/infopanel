@@ -108,7 +108,7 @@ public:
      * @offset At what column should the first rendered pixels pixel be.
      *         So for offset 2 - the 3rd column will be at the start of the panel
      */
-    void render(unsigned int offset=0);
+    void render(int offset=0);
 
     /**
      * Tests the LED matrix (effects showcase)
