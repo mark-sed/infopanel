@@ -30,8 +30,11 @@ Scheduler::Scheduler() : queue{} {
 
 void Scheduler::execute(){
     for(auto p: this->queue){
+        // Find first active task in the queue
+        // it is a priority queue so break after finding it
         if(p.is_active()){
             p.execute();
+            break;
         }
     }
 }
