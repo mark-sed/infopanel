@@ -3,10 +3,19 @@
 
 #include <vector>
 
-using Task = void(*)();
+using TaskFun = void(*)();
 using IsActiveFunction = bool(*)();
 
 // TODO: Add delays
+
+struct Task {
+    TaskFun fun;
+    unsigned int min_duration_ms;  ///< Minimal duration for the function to run in ms
+    Task(TaskFun fun, unsigned int min_duration_ms=0) {
+        this->fun = fun;
+        this->min_duration_ms = min_duration_ms;
+    }; 
+};
 
 class Pipeline {
 private:

@@ -1,3 +1,4 @@
+#include <chrono>
 #include "scheduler.hpp"
 
 Pipeline::Pipeline(IsActiveFunction is_active_fun) {
@@ -9,8 +10,13 @@ bool Pipeline::is_active(){
 }
 
 void Pipeline::execute(){
+    using namespace std::chrono;
     for(auto task: this->tasks){
-        task();
+        // Make sure the tasks run for the least specified amount of time
+        auto start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+        do{
+            task.fun();
+        }while(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) < start_time + milliseconds(task.min_duration_ms));
     }
 }
 
