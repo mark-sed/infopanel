@@ -50,11 +50,11 @@ int main(int argc, char *argv[]){
     // Market open pipeline
     Pipeline p_market_open(is_market_open);
     p_market_open.push(wall_clock);
+    p_market_open.push(crypto_market_data);
     
     // Market closed pipeline
     Pipeline p_market_closed([]() -> bool{return true;});
     p_market_closed.push(wall_clock);
-    //p_market_closed.push(crypto_market_data);
     
     // Scheduler
     scheduler.push(p_market_open);
