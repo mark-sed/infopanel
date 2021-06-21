@@ -13,8 +13,9 @@ LEDMatrix matrix(32, 8, 1);
 ConfigLoader conf;
 APIStocks api_stocks(conf);
 APICrypto api_crypto(conf);
+FontAscii clock_ascii; // Will be std::moved, dont use
 FontAscii ascii;
-auto sc = SimpleClock(std::move(ascii));
+auto sc = SimpleClock(std::move(clock_ascii));
 
 bool is_market_open(){
     return api_stocks.is_active();
@@ -33,25 +34,14 @@ void crypto_data(){
 
 void crypto_market_data(){
     // TODO: Add check for updating data instead of doing it all
-    // FIXME: Does not render (no leds are on)
-    ConfigLoader l;
-    
-    APIStocks s(l);
-    APICrypto c(l);
-    FontAscii ascii;
     long col = 0;
-    std::wstring text = c.text() + s.text();
+    std::wstring text = api_crypto.text() + api_stocks.text();
     matrix.draw_text(text, ascii);
-    while(true){
+    do{
         matrix.render(col);
         col++;
-        if(col >= matrix.get_text_width()){
-            text = c.text() + s.text();
-            matrix.draw_text(text, ascii);
-            col = 0;
-        }
         usleep(90000);
-    }
+    }while(col < static_cast<long>(matrix.get_text_width()));
 }
 
 int main(int argc, char *argv[]){
