@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <unistd.h>
+#include <ctime>
 #include <chrono>
 #include "info_panel.hpp"
 #include "led_matrix.hpp"
@@ -10,11 +11,12 @@
 #include "rest_api.hpp"
 #include "scheduler.hpp"
 
-#define SCROLL_DELAY 90000
 // TODO: Read from config
+#define SCROLL_DELAY 90000
 #define MATRIX_WIDTH 32
 #define MATRIX_HEIGHT 8
 #define MARKET_UPDATE_TIME_MS milliseconds(10*60*1000)
+#define MARKET_OPEN_UPDATE_TIME_MS milliseconds(30*60*1000)
 
 LEDMatrix matrix(MATRIX_WIDTH, MATRIX_HEIGHT, 1);
 ConfigLoader conf;
@@ -25,7 +27,21 @@ FontAscii ascii;
 auto sc = SimpleClock(std::move(clock_ascii));
 
 bool is_market_open(){
-    return api_stocks.is_active();
+    using namespace std::chrono;
+    static bool activity = api_stocks.is_active();
+    static milliseconds last_time = milliseconds(0);
+
+    time_t tt;
+    time(&tt);
+    tm curr_time = *localtime(&tt);
+
+    // Check every new hour and every set amount of minutes (to be sure)
+    // TODO: Adjust time check windows to match with activity check in scheduler when added
+    if((curr_time.tm_min == 0) || duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_OPEN_UPDATE_TIME_MS){
+        activity = api_stocks.is_active();
+        last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    }
+    return activity;
 }
 
 void wall_clock() {
