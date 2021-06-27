@@ -4,7 +4,7 @@ CC=g++
 FLAGS=-Wall -fpermissive -std=c++17 -g
 LIBS=-lpthread -lcurl -lcurlpp
 EXT=.out
-OUT_NAME=info_panel
+OUT_NAME=infopanel
 PATHS=libs/curlpp/include
 
 build: $(SRC)

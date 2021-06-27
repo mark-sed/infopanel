@@ -1,3 +1,16 @@
+/**
+ * @file rest_api.cpp
+ * @author Marek Sedlacek
+ * @date June 2021
+ * @copyright Copyright 2021 Marek Sedlacek. All rights reserved.
+ * @license This project is released under the GNU Public License.
+ *          See LICENSE file in main directory.
+ * 
+ * @brief RestAPIs for display applications.
+ * 
+ * Restful API handling for display applications that need it.
+ */
+
 #include <future>
 #include <list>
 #include <sstream>

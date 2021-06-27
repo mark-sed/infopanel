@@ -1,3 +1,17 @@
+/**
+ * @file config_loader.hpp
+ * @author Marek Sedlacek
+ * @date June 2021
+ * @copyright Copyright 2021 Marek Sedlacek. All rights reserved.
+ * @license This project is released under the GNU Public License.
+ *          See LICENSE file in main directory.
+ * 
+ * @brief Resources for loading configuration data.
+ * 
+ * Functions for loading configuration data. Mainly from the
+ * config.json file.
+ */
+
 #ifndef _CONFIG_LOADER_HPP_
 #define _CONFIG_LOADER_HPP_
 

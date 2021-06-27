@@ -1,3 +1,16 @@
+/**
+ * @file led_matrix.cpp
+ * @author Marek Sedlacek
+ * @date June 2021
+ * @copyright Copyright 2021 Marek Sedlacek. All rights reserved.
+ * @license This project is released under the GNU Public License.
+ *          See LICENSE file in main directory.
+ * 
+ * @brief LED matrix controls.
+ * 
+ * Interface and functions for working with LED matrix.
+ */
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <ctime>

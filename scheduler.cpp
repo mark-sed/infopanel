@@ -1,5 +1,19 @@
-#include <chrono>
+/**
+ * @file scheduler.cpp
+ * @author Marek Sedlacek
+ * @date June 2021
+ * @copyright Copyright 2021 Marek Sedlacek. All rights reserved.
+ * @license This project is released under the GNU Public License.
+ *          See LICENSE file in main directory.
+ * 
+ * @brief Scheduling for InfoPanel applications.
+ * 
+ * Scheduling for application displaying onto the InfoPanel.
+ */
+
 #include "scheduler.hpp"
+#include <chrono>
+
 
 Pipeline::Pipeline(IsActiveFunction is_active_fun) {
     this->is_active_fun = is_active_fun;
