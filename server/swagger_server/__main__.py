@@ -14,14 +14,14 @@ def r():
 
 def main():
     request_handler.initPanel()
-    th_panel = threading.Thread(target=request_handler.runPanel)
+    #th_panel = threading.Thread(target=request_handler.runPanel)
     #th_panel.setDaemon(True)
     app = connexion.App(__name__, specification_dir='./swagger/')
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'Stock Panel'})
     #app.run(port=8080)
     th_server = threading.Thread(target=app.run, args=(8080,))
-    #th_server.setDaemon(True)
+    th_server.setDaemon(True)
     th_server.start()
     while True:
         request_handler.runPanel()
