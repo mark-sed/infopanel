@@ -103,10 +103,10 @@ void info_panel::init_panel() {
     std::cout << "Starting panel\n";
     // Market open pipeline
     Task wc_open_task(wall_clock, 10'000);
-    Task crst_task(crypto_stocks_data, 0);
+    //Task crst_task(crypto_stocks_data, 0);
     Pipeline p_market_open(is_market_open);
     p_market_open.push(wc_open_task);
-    p_market_open.push(crst_task);
+    //p_market_open.push(crst_task);
     
     // Market closed pipeline
     Task wc_closed_task(wall_clock, 1'000*60*10); // 10 mins of clock
@@ -123,9 +123,7 @@ void info_panel::init_panel() {
 void info_panel::run_panel() {
     // Main loop
     // Just execute scheduler
-    //while(true){
     scheduler.execute();
-    //}
 }
 
 int main(int argc, char *argv[]){

@@ -14,9 +14,11 @@
 #include "scheduler.hpp"
 #include <chrono>
 
+using namespace std::chrono;
 
-Pipeline::Pipeline(IsActiveFunction is_active_fun) {
+Pipeline::Pipeline(IsActiveFunction is_active_fun) : current_task_i{0} {
     this->is_active_fun = is_active_fun;
+    this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
 bool Pipeline::is_active(){
@@ -24,14 +26,19 @@ bool Pipeline::is_active(){
 }
 
 void Pipeline::execute(){
-    using namespace std::chrono;
-    for(auto task: this->tasks){
-        // Make sure the tasks run for the least specified amount of time
-        auto start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-        do{
-            task.fun();
-        }while(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) < start_time + milliseconds(task.min_duration_ms));
+    if(tasks.empty())
+        return;
+
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= start_time + milliseconds(tasks[this->current_task_i].min_duration_ms)) {
+        // Start another task
+        this->current_task_i++;
+        if(this->current_task_i >= this->tasks.size()){
+            this->current_task_i = 0;
+        }
+        this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     }
+    
+    tasks[this->current_task_i].fun();
 }
 
 void Pipeline::push(Task t){

@@ -15,6 +15,7 @@
 #define _SCHEDULER_HPP_
 
 #include <vector>
+#include <chrono>
 
 using TaskFun = void(*)();
 using IsActiveFunction = bool(*)();
@@ -34,6 +35,8 @@ class Pipeline {
 private:
     std::vector<Task> tasks;
     IsActiveFunction is_active_fun;
+    size_t current_task_i;
+    std::chrono::milliseconds start_time;
 public:
     Pipeline(IsActiveFunction is_active_fun);
     bool is_active();
