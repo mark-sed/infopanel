@@ -1,0 +1,479 @@
+---
+swagger: "2.0"
+info:
+  description: "REST API for StockPanel application\n"
+  version: "1.0.0"
+  title: "Stock Panel"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/sedlacek/StockPanel/1.0.0"
+tags:
+- name: "ping"
+  description: "Ping"
+- name: "controller"
+  description: "Quick controls"
+- name: "settings"
+  description: "Panel settings"
+- name: "colors"
+  description: "Panel color settings"
+- name: "get"
+  description: "Operations about user"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /ping:
+    get:
+      tags:
+      - "ping"
+      summary: "Ping"
+      description: "Connection check"
+      operationId: "ping"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.ping_controller"
+  /controller/brightness/{value}:
+    get:
+      tags:
+      - "controller"
+      summary: "Set panel's brightness"
+      description: "Sets brightness for each led in the panel. Allowed values are\
+        \ <0; 255>"
+      operationId: "set_brightness"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "value"
+        in: "path"
+        description: "New brightness value"
+        required: true
+        type: "integer"
+        format: "int8"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid brightness value"
+      x-swagger-router-controller: "swagger_server.controllers.controller_controller"
+  /controller/showStocks:
+    get:
+      tags:
+      - "controller"
+      summary: "Scrolls stocks and crypto on the panel"
+      description: "Interupts current widget and scrolls one time through all the\
+        \ stocks and crypto"
+      operationId: "show_stocks"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "No stock/crypto widget setup"
+      x-swagger-router-controller: "swagger_server.controllers.controller_controller"
+  /controller/toggleLamp:
+    get:
+      tags:
+      - "controller"
+      summary: "Toggles lamp mode"
+      description: "Interupts current widget and toggle lamp (ON->OFF; OFF->ON) and\
+        \ returns current state of the lamp"
+      operationId: "toggle_lamp"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/LampStatus"
+      x-swagger-router-controller: "swagger_server.controllers.controller_controller"
+  /controller/toggleDisplay:
+    get:
+      tags:
+      - "controller"
+      summary: "Toggles the display on or off"
+      description: "Toggles display on or off"
+      operationId: "toggle_display"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/LampStatus"
+      x-swagger-router-controller: "swagger_server.controllers.controller_controller"
+  /controller/showClock/{time_sec}:
+    get:
+      tags:
+      - "controller"
+      summary: "Shows wall clock"
+      description: "Interupts current widget and shows wall clock for set amount of\
+        \ time"
+      operationId: "show_clock"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "time_sec"
+        in: "path"
+        description: "How many seconds will be the wall clock shown for"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "No clock widget setup"
+      x-swagger-router-controller: "swagger_server.controllers.controller_controller"
+  /settings/currency/{name}:
+    get:
+      tags:
+      - "settings"
+      summary: "Sets up prefered currency"
+      description: "Sets up prefered currency"
+      operationId: "set_currency"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Currency name (eg. usd/czk/eur)"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unknown currency"
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/finhubKey/{key}:
+    get:
+      tags:
+      - "settings"
+      summary: "Sets up Finhub key"
+      description: "Sets up Finhub key"
+      operationId: "set_finhub_key"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "key"
+        in: "path"
+        description: "Finhub API key"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect key"
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/polygonKey/{key}:
+    get:
+      tags:
+      - "settings"
+      summary: "Sets up Finhub key"
+      description: "Sets up Finhub key"
+      operationId: "set_polygon_key"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "key"
+        in: "path"
+        description: "Polygon API key"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect key"
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/scheduler:
+    post:
+      tags:
+      - "settings"
+      summary: "Sets up scheduler"
+      description: "Sets up scheduler"
+      operationId: "set_scheduler"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "scheduler"
+        required: true
+        schema:
+          $ref: "#/definitions/Scheduler"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect format"
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /colors/symbol/{hex_code}:
+    get:
+      tags:
+      - "colors"
+      summary: "Color setup"
+      description: "Color setup. Color code should be uppercase hexadecimal string\
+        \ with 0x prefix. E.g. \"0x4200FF\""
+      operationId: "set_color_symbol"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hex_code"
+        in: "path"
+        description: "Hexadecimal color value (with 0x prefix in uppercase)"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect color value"
+      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
+  /colors/price/{hex_code}:
+    get:
+      tags:
+      - "colors"
+      summary: "Color setup"
+      description: "Color setup. Color code should be uppercase hexadecimal string\
+        \ with 0x prefix. E.g. \"0x4200FF\""
+      operationId: "set_color_price"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hex_code"
+        in: "path"
+        description: "Hexadecimal color value (with 0x prefix in uppercase)"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect color value"
+      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
+  /colors/gain/{hex_code}:
+    get:
+      tags:
+      - "colors"
+      summary: "Color setup"
+      description: "Color setup. Color code should be uppercase hexadecimal string\
+        \ with 0x prefix. E.g. \"0x4200FF\""
+      operationId: "set_color_gain"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hex_code"
+        in: "path"
+        description: "Hexadecimal color value (with 0x prefix in uppercase)"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect color value"
+      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
+  /colors/loss/{hex_code}:
+    get:
+      tags:
+      - "colors"
+      summary: "Color setup"
+      description: "Color setup. Color code should be uppercase hexadecimal string\
+        \ with 0x prefix. E.g. \"0x4200FF\""
+      operationId: "set_color_loss"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hex_code"
+        in: "path"
+        description: "Hexadecimal color value (with 0x prefix in uppercase)"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect color value"
+      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
+  /colors/neutral/{hex_code}:
+    get:
+      tags:
+      - "colors"
+      summary: "Color setup"
+      description: "Color setup. Color code should be uppercase hexadecimal string\
+        \ with 0x prefix. E.g. \"0x4200FF\""
+      operationId: "set_color_neutral"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hex_code"
+        in: "path"
+        description: "Hexadecimal color value (with 0x prefix in uppercase)"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Incorrect color value"
+      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
+  /get/settings:
+    get:
+      tags:
+      - "get"
+      summary: "Current panel settings"
+      description: "Returns current panel settings"
+      operationId: "get_settings"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/CurrSettings"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/brightness:
+    get:
+      tags:
+      - "get"
+      summary: "Current brightness value"
+      description: "Returns current brightness value"
+      operationId: "get_brightness"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/IntValue"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/scheduler:
+    get:
+      tags:
+      - "get"
+      summary: "Current scheduler settings"
+      description: "Returns current scheduler settings"
+      operationId: "get_scheduler"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Scheduler"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+definitions:
+  LampStatus:
+    type: "object"
+    properties:
+      isOn:
+        type: "boolean"
+    example:
+      isOn: true
+  IntValue:
+    type: "object"
+    properties:
+      value:
+        type: "integer"
+        format: "int32"
+    example:
+      value: 0
+  CurrSettings:
+    type: "object"
+    properties:
+      brightness:
+        type: "integer"
+        format: "int8"
+      currency:
+        type: "string"
+      finhubKey:
+        type: "string"
+      polygonKey:
+        type: "string"
+      colors:
+        type: "object"
+        properties:
+          symbol:
+            type: "string"
+          price:
+            type: "string"
+          gain:
+            type: "string"
+          loss:
+            type: "string"
+          neutral:
+            type: "string"
+    example:
+      brightness: 0
+      polygonKey: "polygonKey"
+      finhubKey: "finhubKey"
+      currency: "currency"
+      colors: "{}"
+  Scheduler:
+    type: "object"
+    properties:
+      widgets:
+        type: "object"
+        properties:
+          stocks:
+            $ref: "#/definitions/Stocks"
+          crypto:
+            $ref: "#/definitions/Crypto"
+          clock:
+            $ref: "#/definitions/Clock"
+    example:
+      widgets: "{}"
+  Stocks:
+    type: "object"
+    properties:
+      active:
+        type: "boolean"
+      tickers:
+        type: "array"
+        items:
+          type: "string"
+      show_price:
+        type: "boolean"
+      show_percentage:
+        type: "boolean"
+  Crypto:
+    type: "object"
+    properties:
+      active:
+        type: "boolean"
+      tickers:
+        type: "array"
+        items:
+          type: "string"
+      show_price:
+        type: "boolean"
+      show_percentage:
+        type: "boolean"
+  Clock:
+    type: "object"
+    properties:
+      active:
+        type: "boolean"
+      format24hr:
+        type: "boolean"
+      font:
+        type: "string"
+      type:
+        type: "string"

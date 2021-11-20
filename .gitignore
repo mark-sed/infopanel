@@ -1,4 +1,5 @@
 config.json
+.vscode/
 
 # Prerequisites
 *.d
@@ -32,3 +33,6 @@ config.json
 *.exe
 *.out
 *.app
+
+# Python
+__pycache__/
