@@ -97,9 +97,10 @@ void crypto_stocks_data(){
     }while(col < static_cast<long>(matrix.get_text_width()));
 }
 
-void info_panel::start_panel() {
+Scheduler scheduler;
+
+void info_panel::init_panel() {
     std::cout << "Starting panel\n";
-    Scheduler scheduler;
     // Market open pipeline
     Task wc_open_task(wall_clock, 10'000);
     Task crst_task(crypto_stocks_data, 0);
@@ -117,16 +118,20 @@ void info_panel::start_panel() {
     // Scheduler
     scheduler.push(p_market_open);
     scheduler.push(p_market_closed);
+}
 
+void info_panel::run_panel() {
     // Main loop
     // Just execute scheduler
-    while(true){
-        std::cout << ".";
-        //scheduler.execute();
-    }
+    //while(true){
+    scheduler.execute();
+    //}
 }
 
 int main(int argc, char *argv[]){
-    info_panel::start_panel();
+    info_panel::init_panel();
+    while(true){
+        info_panel::run_panel();
+    }
     return 0;
 }

@@ -14,8 +14,12 @@ namespace wrapper {
         return std::string("Pong");
     }
 
-    void start() {
-        info_panel::start_panel();
+    void init() {
+        info_panel::init_panel();
+    }
+
+    void run() {
+        info_panel::run_panel();
     }
 
     namespace controller {
@@ -109,7 +113,8 @@ namespace wrapper {
 PYBIND11_MODULE(stockpanel, sp){
     sp.doc() = "Stock Panel API";
     
-    sp.def("start", &wrapper::start, "Starts the panel");
+    sp.def("initPanel", &wrapper::init, "Inits panel");
+    sp.def("runPanel", &wrapper::run, "Runs panel");
     
     sp.def("hello", &wrapper::hello, "Test method");
 

@@ -20,7 +20,8 @@
 #define INFO_PANEL_VERSION_PATCH 0
 
 namespace info_panel {
-    void start_panel();
+    void init_panel();
+    void run_panel();
 }
 
 #endif

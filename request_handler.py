@@ -1,5 +1,7 @@
 import json
 import stockpanel
+import threading
+
 
 def hello():
     return stockpanel.hello()
@@ -55,4 +57,8 @@ def getBrightness():
 def getScheduler():
     return stockpanel.getScheduler()
 
-stockpanel.start()
+def initPanel():
+    return stockpanel.initPanel()
+
+def runPanel():
+    return stockpanel.runPanel()
