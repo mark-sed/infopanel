@@ -25,7 +25,7 @@
 
 using json = nlohmann::json;
 
-const std::string ConfigLoader::PATH = "config.json";
+const std::string ConfigLoader::PATH = "../config.json";
 
 ConfigLoader::ConfigLoader(){
     this->reload();

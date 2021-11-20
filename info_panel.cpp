@@ -32,6 +32,8 @@
 #define MARKET_UPDATE_TIME_MS milliseconds(10*60*1000)
 #define MARKET_OPEN_UPDATE_TIME_MS milliseconds(30*60*1000)
 
+using namespace info_panel;
+
 LEDMatrix matrix(MATRIX_WIDTH, MATRIX_HEIGHT, 1);
 ConfigLoader conf;
 APIStocks api_stocks(conf);
@@ -95,7 +97,8 @@ void crypto_stocks_data(){
     }while(col < static_cast<long>(matrix.get_text_width()));
 }
 
-int main(int argc, char *argv[]){
+void info_panel::start_panel() {
+    std::cout << "Starting panel\n";
     Scheduler scheduler;
     // Market open pipeline
     Task wc_open_task(wall_clock, 10'000);
@@ -118,8 +121,12 @@ int main(int argc, char *argv[]){
     // Main loop
     // Just execute scheduler
     while(true){
-        scheduler.execute();
+        std::cout << ".";
+        //scheduler.execute();
     }
+}
 
+int main(int argc, char *argv[]){
+    info_panel::start_panel();
     return 0;
 }

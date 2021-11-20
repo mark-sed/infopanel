@@ -12,6 +12,7 @@ make && sudo ./infopanel.out
 
 ## What needs to be setup
 * Libcurl - `sudo apt-get install libcurl4-gnutls-dev`
+* Python3 for REST API and its packages conatined inside of requirement.txt (`pip install -r requirements.txt`)
 * Essential tools which should be already installed in most cases - `sudo apt-get install build-essential`
 * SSH enabled for easier access to RaspberryPI from other computer
 

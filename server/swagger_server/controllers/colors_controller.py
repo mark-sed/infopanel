@@ -2,6 +2,9 @@ import connexion
 import six
 
 from swagger_server import util
+from sys import path
+path.append("../")
+import request_handler
 
 
 def set_color_gain(hex_code):  # noqa: E501
@@ -14,7 +17,7 @@ def set_color_gain(hex_code):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.setColorGain(hex_code) else 400
 
 
 def set_color_loss(hex_code):  # noqa: E501
@@ -27,7 +30,7 @@ def set_color_loss(hex_code):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.setColorLoss(hex_code) else 400
 
 
 def set_color_neutral(hex_code):  # noqa: E501
@@ -40,7 +43,7 @@ def set_color_neutral(hex_code):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.setColorNeutral(hex_code) else 400
 
 
 def set_color_price(hex_code):  # noqa: E501
@@ -53,7 +56,7 @@ def set_color_price(hex_code):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.setColorPrice(hex_code) else 400
 
 
 def set_color_symbol(hex_code):  # noqa: E501
@@ -66,4 +69,4 @@ def set_color_symbol(hex_code):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.setColorSymbol(hex_code) else 400

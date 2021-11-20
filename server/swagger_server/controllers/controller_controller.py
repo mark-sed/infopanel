@@ -3,6 +3,9 @@ import six
 
 from swagger_server.models.lamp_status import LampStatus  # noqa: E501
 from swagger_server import util
+from sys import path
+path.append("../")
+import request_handler
 
 
 def set_brightness(value):  # noqa: E501
@@ -15,7 +18,7 @@ def set_brightness(value):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.setBrightness(value) else 400
 
 
 def show_clock(time_sec):  # noqa: E501
@@ -28,7 +31,7 @@ def show_clock(time_sec):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.showClock(time_sec) else 400
 
 
 def show_stocks():  # noqa: E501
@@ -39,7 +42,7 @@ def show_stocks():  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return 200 if request_handler.showStocks() else 400
 
 
 def toggle_display():  # noqa: E501
@@ -50,7 +53,7 @@ def toggle_display():  # noqa: E501
 
     :rtype: LampStatus
     """
-    return 'do some magic!'
+    return LampStatus(request_handler.toggleDisplay())
 
 
 def toggle_lamp():  # noqa: E501
@@ -61,4 +64,4 @@ def toggle_lamp():  # noqa: E501
 
     :rtype: LampStatus
     """
-    return 'do some magic!'
+    return LampStatus(request_handler.toggleLamp())

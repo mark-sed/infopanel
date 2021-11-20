@@ -19,5 +19,8 @@
 #define INFO_PANEL_VERSION_MINOR 0
 #define INFO_PANEL_VERSION_PATCH 0
 
+namespace info_panel {
+    void start_panel();
+}
 
 #endif
