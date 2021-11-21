@@ -32,15 +32,18 @@
 #define MARKET_UPDATE_TIME_MS milliseconds(10*60*1000)
 #define MARKET_OPEN_UPDATE_TIME_MS milliseconds(30*60*1000)
 
-using namespace info_panel;
 
-LEDMatrix matrix(MATRIX_WIDTH, MATRIX_HEIGHT, 1);
-ConfigLoader conf;
-APIStocks api_stocks(conf);
-APICrypto api_crypto(conf);
-FontAscii clock_ascii; // Will be std::moved, dont use
-FontAscii ascii;
-auto sc = SimpleClock(std::move(clock_ascii));
+namespace info_panel {
+    LEDMatrix matrix(MATRIX_WIDTH, MATRIX_HEIGHT, 1);
+    ConfigLoader conf;
+    APIStocks api_stocks(conf);
+    APICrypto api_crypto(conf);
+    FontAscii clock_ascii; // Will be std::moved, dont use
+    FontAscii ascii;
+    auto sc = SimpleClock(std::move(clock_ascii));
+}
+
+using namespace info_panel;
 
 bool is_market_open(){
     using namespace std::chrono;

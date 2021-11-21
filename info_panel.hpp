@@ -19,9 +19,28 @@
 #define INFO_PANEL_VERSION_MINOR 0
 #define INFO_PANEL_VERSION_PATCH 0
 
+#include "info_panel.hpp"
+#include "led_matrix.hpp"
+#include "clock.hpp"
+#include "font.hpp"
+#include "config_loader.hpp"
+#include "rest_api.hpp"
+#include "scheduler.hpp"
+
 namespace info_panel {
     void init_panel();
     void run_panel();
+
+    
+    extern LEDMatrix matrix;
+    extern ConfigLoader conf;
+    extern APIStocks api_stocks;
+    extern APICrypto api_crypto;
+    extern FontAscii clock_ascii; // Will be std::moved, dont use
+    extern FontAscii ascii;
+    extern SimpleClock simpleClock;
+    extern Scheduler scheduler;
+
 }
 
 #endif

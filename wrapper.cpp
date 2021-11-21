@@ -25,6 +25,7 @@ namespace wrapper {
     namespace controller {
         
         bool set_brightness(int value){
+            info_panel::matrix.set_brightness(value, true);
             return true;
         }
 
