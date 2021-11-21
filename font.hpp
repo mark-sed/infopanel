@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <map>
 #include <vector>
+#include <string>
 #include "libs/rpi_ws281x/ws2811.h"
 
 /**

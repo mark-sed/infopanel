@@ -12,6 +12,7 @@
  */
 
 #include "font.hpp"
+#include <string>
 
 #define FONT_ENTRY(k, ...) {(k), std::vector<ws2811_led_t>{__VA_ARGS__}}
 

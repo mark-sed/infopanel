@@ -17,7 +17,9 @@
 #include <vector>
 #include <chrono>
 
-using TaskFun = void(*)();
+struct Task;
+
+using TaskFun = void(*)(Task *task);
 using IsActiveFunction = bool(*)();
 
 // TODO: Add delays
@@ -25,9 +27,13 @@ using IsActiveFunction = bool(*)();
 struct Task {
     TaskFun fun;
     unsigned int min_duration_ms;  ///< Minimal duration for the function to run in ms
-    Task(TaskFun fun, unsigned int min_duration_ms=0) {
+    bool done;
+    bool one_time;
+    Task(TaskFun fun, unsigned int min_duration_ms=0, bool one_time=false) {
         this->fun = fun;
         this->min_duration_ms = min_duration_ms;
+        this->done = false;
+        this->one_time = one_time;
     }; 
 };
 

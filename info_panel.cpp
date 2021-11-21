@@ -63,41 +63,53 @@ bool is_market_open(){
     return activity;
 }
 
-void wall_clock() {
+void wall_clock(Task *task) {
     sc.draw(matrix);
     int pos = -16+matrix.get_text_width()/2;
     matrix.render(pos);
     usleep(sc.delay);
 }
 
-void crypto_data(){
-    long col = -MATRIX_WIDTH;
-    // Because this is run 1 time every 10 minutes it's ok to request data everytime
-    std::wstring text = api_crypto.text();
-    matrix.draw_text(text, ascii);
-    do{
-        matrix.render(col);
-        col++;
-        usleep(SCROLL_DELAY);
-    }while(col < static_cast<long>(matrix.get_text_width()));
-}
-
-void crypto_stocks_data(){
+void crypto_data(Task *task){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
     static std::wstring text;
+    static long col = -MATRIX_WIDTH;
 
-    long col = -MATRIX_WIDTH;
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
+        text = api_crypto.text();
+        last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    }
+
+    matrix.draw_text(text, ascii);
+    matrix.render(col);
+    col++;
+    usleep(SCROLL_DELAY);
+    if(col >= static_cast<long>(matrix.get_text_width())){
+        col = -MATRIX_WIDTH;
+        task->done = true;
+    }
+}
+
+void crypto_stocks_data(Task *task){
+    using namespace std::chrono;
+    static milliseconds last_time = milliseconds(0);
+    static std::wstring text;
+    static long col = -MATRIX_WIDTH;
+    
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
         text = api_crypto.text() + api_stocks.text();
         last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     }
+
     matrix.draw_text(text, ascii);
-    do{
-        matrix.render(col);
-        col++;
-        usleep(SCROLL_DELAY);
-    }while(col < static_cast<long>(matrix.get_text_width()));
+    matrix.render(col);
+    col++;
+    usleep(SCROLL_DELAY);
+    if(col >= static_cast<long>(matrix.get_text_width())){
+        col = -MATRIX_WIDTH;
+        task->done = true;
+    }
 }
 
 Scheduler scheduler;
