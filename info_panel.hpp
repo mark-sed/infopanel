@@ -39,7 +39,6 @@ namespace info_panel {
     extern FontAscii clock_ascii; // Will be std::moved, dont use
     extern FontAscii ascii;
     extern SimpleClock simpleClock;
-    extern Scheduler scheduler;
 
 }
 
