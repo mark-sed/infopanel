@@ -106,16 +106,13 @@ namespace wrapper {
             return "{}";
         }
 
-        std::string get_lamp_status() {
+        bool get_lamp_status() {
             // TODO: Read lamp mode when added
-            std::string status = "true";
-            return std::string("{\"isOn\": ")+status+"}";
+            return true;
         }
 
-        std::string get_display_status() {
-            // TODO: Read display mode when added
-            std::string status = info_panel::matrix.is_on() ? "true" : "false";
-            return std::string("{\"isOn\": ")+status+"}";
+        bool get_display_status() {
+            return info_panel::matrix.is_on();
         }
 
     } // namespace get
