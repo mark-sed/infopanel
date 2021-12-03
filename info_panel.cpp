@@ -26,7 +26,7 @@
 #include "scheduler.hpp"
 
 // TODO: Read from config
-#define SCROLL_DELAY 90000
+#define SCROLL_DELAY milliseconds(90000)
 #define MATRIX_WIDTH 32
 #define MATRIX_HEIGHT 8
 #define MARKET_UPDATE_TIME_MS milliseconds(10*60*1000)
@@ -73,8 +73,13 @@ void info_panel::wall_clock(Task *task) {
 void crypto_data(Task *task){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
+    static milliseconds last_time_scroll = milliseconds(0);
     static std::wstring text;
     static long col = -MATRIX_WIDTH;
+
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) < last_time_scroll + SCROLL_DELAY) {
+        return;
+    }
 
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
         text = api_crypto.text();
@@ -84,18 +89,24 @@ void crypto_data(Task *task){
     matrix.draw_text(text, ascii);
     matrix.render(col);
     col++;
-    usleep(SCROLL_DELAY);
     if(col >= static_cast<long>(matrix.get_text_width())){
         col = -MATRIX_WIDTH;
         task->done = true;
     }
+
+    last_time_scroll = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
 void info_panel::crypto_stocks_data(Task *task){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
+    static milliseconds last_time_scroll = milliseconds(0);
     static std::wstring text;
     static long col = -MATRIX_WIDTH;
+
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) < last_time_scroll + SCROLL_DELAY) {
+        return;
+    }
     
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
         text = api_crypto.text() + api_stocks.text();
@@ -105,11 +116,12 @@ void info_panel::crypto_stocks_data(Task *task){
     matrix.draw_text(text, ascii);
     matrix.render(col);
     col++;
-    usleep(SCROLL_DELAY);
     if(col >= static_cast<long>(matrix.get_text_width())){
         col = -MATRIX_WIDTH;
         task->done = true;
     }
+
+    last_time_scroll = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
 namespace info_panel {
