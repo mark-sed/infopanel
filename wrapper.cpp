@@ -38,7 +38,7 @@ namespace wrapper {
         }
 
         bool toggle_display() {
-            return true;
+            return info_panel::matrix.toggle();
         }
 
         bool show_clock(int time_sec) {
@@ -114,7 +114,7 @@ namespace wrapper {
 
         std::string get_display_status() {
             // TODO: Read display mode when added
-            std::string status = "true";
+            std::string status = info_panel::matrix.is_on() ? "true" : "false";
             return std::string("{\"isOn\": ")+status+"}";
         }
 

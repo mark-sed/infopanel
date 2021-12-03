@@ -76,6 +76,7 @@ private:
     unsigned int text_width;  ///< Width of drawn content (in panel pixels)
     unsigned int text_height; ///< Height of drawn content (in panel pixels)
     ws2811_t ledstring;       ///< Configuration struct
+    bool on;                  ///< If the the panel displays data, otherwise it does not
     
     /**
      * Parses control sequence
@@ -109,6 +110,17 @@ public:
      * @return Brightness of the panel
      */ 
     uint8_t get_brightness() { return brightness; };
+
+    /**
+     * Toggles the panel on/off
+     * @return Current status of the panel (true = on; false = off)
+     */ 
+    bool toggle();
+
+    /**
+     * @return If the panel is on (true) or off (false)
+     */ 
+    bool is_on() { return on; }
 
     /**
      * Draws text to canvas (for rendering on the panel)

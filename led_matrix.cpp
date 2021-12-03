@@ -45,7 +45,8 @@ std::string to_upper(std::string text){
 
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness) : 
                      width(width), height(height), brightness(brightness), 
-                     pixels{std::vector<ws2811_led_t>(width*height), std::vector<ws2811_led_t>(width*height)}{ 
+                     pixels{std::vector<ws2811_led_t>(width*height), std::vector<ws2811_led_t>(width*height)},
+                     on{true} { 
     // Setup ledstring     
     ws2811_t temp_ledstring = {
         .freq = ConfLEDMatrix::TARGET_FREQUENCY,
@@ -85,6 +86,15 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
     }
 }
 
+bool LEDMatrix::toggle() {
+    this->on = !on;
+    if(!on) {
+        pixels[0].clear();
+        pixels[1].clear();
+    }
+    return on;
+}
+
 unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
     // TODO: Add escape sequence for {{
     // If the start of escape sequence is changed from '{' then this has to be 
@@ -114,6 +124,9 @@ unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
 }
 
 void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t default_color){
+    if(!on) {
+        return;
+    }
     // TODO: Make this place in spacers if max_height != height?
     const unsigned int LETTER_SPACE = 1;
     size_t text_max_length = text.length()*font.get_max_width()*this->height + text.length()*this->height*LETTER_SPACE;
