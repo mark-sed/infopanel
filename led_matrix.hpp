@@ -132,7 +132,7 @@ public:
     /**
      * @return If the panel is in lamp mode
      */ 
-    bool is_lamp_mode() { return on; }
+    bool is_lamp_mode() { return lamp_mode; }
 
     /**
      * Draws text to canvas (for rendering on the panel)

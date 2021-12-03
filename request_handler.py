@@ -18,8 +18,8 @@ def toggleLamp():
 def toggleDisplay():
     return stockpanel.toggleDisplay()
 
-def showClock():
-    return stockpanel.showClock()
+def showClock(time_sec):
+    return stockpanel.showClock(time_sec if time_sec is not None else 10)
     
 def setCurrency(name):
     return stockpanel.setCurrency(name)
