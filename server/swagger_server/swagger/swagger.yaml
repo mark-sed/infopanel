@@ -16,8 +16,6 @@ tags:
   description: "Quick controls"
 - name: "settings"
   description: "Panel settings"
-- name: "colors"
-  description: "Panel color settings"
 - name: "get"
   description: "Operations about user"
   externalDocs:
@@ -221,10 +219,10 @@ paths:
         "400":
           description: "Incorrect format"
       x-swagger-router-controller: "swagger_server.controllers.settings_controller"
-  /colors/symbol/{hex_code}:
+  /settings/colors/symbol/{hex_code}:
     get:
       tags:
-      - "colors"
+      - "settings"
       summary: "Color setup"
       description: "Color setup. Color code should be uppercase hexadecimal string\
         \ with 0x prefix. E.g. \"0x4200FF\""
@@ -242,11 +240,11 @@ paths:
           description: "Successful operation"
         "400":
           description: "Incorrect color value"
-      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
-  /colors/price/{hex_code}:
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/colors/price/{hex_code}:
     get:
       tags:
-      - "colors"
+      - "settings"
       summary: "Color setup"
       description: "Color setup. Color code should be uppercase hexadecimal string\
         \ with 0x prefix. E.g. \"0x4200FF\""
@@ -264,11 +262,11 @@ paths:
           description: "Successful operation"
         "400":
           description: "Incorrect color value"
-      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
-  /colors/gain/{hex_code}:
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/colors/gain/{hex_code}:
     get:
       tags:
-      - "colors"
+      - "settings"
       summary: "Color setup"
       description: "Color setup. Color code should be uppercase hexadecimal string\
         \ with 0x prefix. E.g. \"0x4200FF\""
@@ -286,11 +284,11 @@ paths:
           description: "Successful operation"
         "400":
           description: "Incorrect color value"
-      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
-  /colors/loss/{hex_code}:
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/colors/loss/{hex_code}:
     get:
       tags:
-      - "colors"
+      - "settings"
       summary: "Color setup"
       description: "Color setup. Color code should be uppercase hexadecimal string\
         \ with 0x prefix. E.g. \"0x4200FF\""
@@ -308,11 +306,11 @@ paths:
           description: "Successful operation"
         "400":
           description: "Incorrect color value"
-      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
-  /colors/neutral/{hex_code}:
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
+  /settings/colors/neutral/{hex_code}:
     get:
       tags:
-      - "colors"
+      - "settings"
       summary: "Color setup"
       description: "Color setup. Color code should be uppercase hexadecimal string\
         \ with 0x prefix. E.g. \"0x4200FF\""
@@ -330,7 +328,7 @@ paths:
           description: "Successful operation"
         "400":
           description: "Incorrect color value"
-      x-swagger-router-controller: "swagger_server.controllers.colors_controller"
+      x-swagger-router-controller: "swagger_server.controllers.settings_controller"
   /get/settings:
     get:
       tags:
@@ -378,6 +376,86 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/Scheduler"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/fonts:
+    get:
+      tags:
+      - "get"
+      summary: "Available fonts"
+      description: "Returns available fonts"
+      operationId: "get_fonts"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ListOfStrings"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/clock/types:
+    get:
+      tags:
+      - "get"
+      summary: "Available fonts"
+      description: "Returns available fonts"
+      operationId: "get_clock_types"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ListOfStrings"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/lampStatus:
+    get:
+      tags:
+      - "get"
+      summary: "Available fonts"
+      description: "Returns available fonts"
+      operationId: "get_lamp_status"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/LampStatus"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/displayStatus:
+    get:
+      tags:
+      - "get"
+      summary: "Available fonts"
+      description: "Returns available fonts"
+      operationId: "get_display_status"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/LampStatus"
+      x-swagger-router-controller: "swagger_server.controllers.get_controller"
+  /get/currencies:
+    get:
+      tags:
+      - "get"
+      summary: "Available fonts"
+      description: "Returns available fonts"
+      operationId: "get_currencies"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/ListOfStrings"
       x-swagger-router-controller: "swagger_server.controllers.get_controller"
 definitions:
   LampStatus:
@@ -441,39 +519,49 @@ definitions:
     example:
       widgets: "{}"
   Stocks:
-    type: "object"
-    properties:
-      active:
-        type: "boolean"
-      tickers:
-        type: "array"
-        items:
-          type: "string"
-      show_price:
-        type: "boolean"
-      show_percentage:
-        type: "boolean"
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        position:
+          type: "integer"
+        tickers:
+          type: "array"
+          items:
+            type: "string"
+        showPrice:
+          type: "boolean"
+        showPercentage:
+          type: "boolean"
   Crypto:
-    type: "object"
-    properties:
-      active:
-        type: "boolean"
-      tickers:
-        type: "array"
-        items:
-          type: "string"
-      show_price:
-        type: "boolean"
-      show_percentage:
-        type: "boolean"
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        position:
+          type: "integer"
+        tickers:
+          type: "array"
+          items:
+            type: "string"
+        showPrice:
+          type: "boolean"
+        showPercentage:
+          type: "boolean"
   Clock:
-    type: "object"
-    properties:
-      active:
-        type: "boolean"
-      format24hr:
-        type: "boolean"
-      font:
-        type: "string"
-      type:
-        type: "string"
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        position:
+          type: "integer"
+        format24hr:
+          type: "boolean"
+        font:
+          type: "string"
+        type:
+          type: "string"
+  ListOfStrings:
+    type: "array"
+    items:
+      type: "string"
