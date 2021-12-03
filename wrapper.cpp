@@ -106,6 +106,18 @@ namespace wrapper {
             return "{}";
         }
 
+        std::string get_lamp_status() {
+            // TODO: Read lamp mode when added
+            std::string status = "true";
+            return std::string("{\"isOn\": ")+status+"}";
+        }
+
+        std::string get_display_status() {
+            // TODO: Read display mode when added
+            std::string status = "true";
+            return std::string("{\"isOn\": ")+status+"}";
+        }
+
     } // namespace get
 
 } // namespace wrapper
@@ -139,4 +151,6 @@ PYBIND11_MODULE(stockpanel, sp){
     sp.def("getSettings", &wrapper::get::get_settings, "Returns settings");
     sp.def("getBrightness", &wrapper::get::get_brightness, "Returns brightness");
     sp.def("getScheduler", &wrapper::get::get_scheduler, "Returns scheduler");
+    sp.def("getLampStatus", &wrapper::get::get_lamp_status, "Returns lamp status");
+    sp.def("getDisplayStatus", &wrapper::get::get_display_status, "Returns display status");
 }

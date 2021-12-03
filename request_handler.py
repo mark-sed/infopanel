@@ -57,6 +57,12 @@ def getBrightness():
 def getScheduler():
     return stockpanel.getScheduler()
 
+def getDisplayStatus():
+    return stockpanel.getDisplayStatus()
+
+def getLampStatus():
+    return stockpanel.getLampStatus()
+
 def initPanel():
     return stockpanel.initPanel()
 
