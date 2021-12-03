@@ -78,6 +78,7 @@ LEDMatrix::~LEDMatrix(){
 void LEDMatrix::set_brightness(uint8_t brightness, bool render){
     // No need to check if value is in range,
     // because brightness is of type uint8_t
+    this->brightness = brightness;
     this->ledstring.channel[0].brightness = brightness;
     if(render){
         ws2811_render(&this->ledstring);
