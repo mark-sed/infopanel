@@ -106,6 +106,11 @@ public:
     void set_brightness(uint8_t brightness, bool render=false);
 
     /**
+     * @return Brightness of the panel
+     */ 
+    uint8_t get_brightness() { return brightness; };
+
+    /**
      * Draws text to canvas (for rendering on the panel)
      * @note Previous canvas will be cleared
      * @param text Text to be drawn

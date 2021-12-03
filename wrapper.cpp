@@ -99,7 +99,7 @@ namespace wrapper {
         }
 
         std::string get_brightness() {
-            return std::string("{\"value\": ")+std::to_string(42)+"}";
+            return std::string("{\"value\": ")+std::to_string(info_panel::matrix.get_brightness())+"}";
         }
 
         std::string get_scheduler() {

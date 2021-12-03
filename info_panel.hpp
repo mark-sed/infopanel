@@ -40,6 +40,7 @@ namespace info_panel {
     extern FontAscii ascii;
     extern SimpleClock simpleClock;
 
+    extern Scheduler scheduler;
 }
 
 #endif

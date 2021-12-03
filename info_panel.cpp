@@ -112,7 +112,9 @@ void crypto_stocks_data(Task *task){
     }
 }
 
-Scheduler scheduler;
+namespace info_panel {
+    Scheduler scheduler;
+}
 
 void info_panel::init_panel() {
     std::cout << "Starting panel\n";
@@ -131,14 +133,14 @@ void info_panel::init_panel() {
     p_market_closed.push(crypto_task);
     
     // Scheduler
-    scheduler.push(p_market_open);
-    scheduler.push(p_market_closed);
+    info_panel::scheduler.push(p_market_open);
+    info_panel::scheduler.push(p_market_closed);
 }
 
 void info_panel::run_panel() {
     // Main loop
     // Just execute scheduler
-    scheduler.execute();
+    info_panel::scheduler.execute();
 }
 
 int main(int argc, char *argv[]){
