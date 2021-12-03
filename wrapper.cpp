@@ -30,7 +30,7 @@ namespace wrapper {
         }
 
         bool show_stocks() {
-            return true;
+            return info_panel::scheduler.show_stocks();
         }
 
         bool toggle_lamp() {
@@ -42,7 +42,7 @@ namespace wrapper {
         }
 
         bool show_clock(int time_sec) {
-            return true;
+            return info_panel::scheduler.show_clock(time_sec);
         }
 
     } // namespace controller

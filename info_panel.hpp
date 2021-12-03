@@ -41,6 +41,9 @@ namespace info_panel {
     extern SimpleClock simpleClock;
 
     extern Scheduler scheduler;
+
+    void crypto_stocks_data(Task *task);
+    void wall_clock(Task *task);
 }
 
 #endif

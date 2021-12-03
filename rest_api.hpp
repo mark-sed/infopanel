@@ -57,6 +57,11 @@ public:
      * to check if it's open (if there is an event...)
      */
     virtual bool is_active() { return true; };
+
+    /**
+     * Getter for API name
+     */ 
+    virtual const char *get_name() { return "Unknown"; }
 };
 
 /**
@@ -64,9 +69,11 @@ public:
  */
 class APIStocks : public RestAPI {
 public:
+    static const char *NAME;
     APIStocks(ConfigLoader conf) : RestAPI(conf) {};
     std::wstring text() override;
     bool is_active() override;
+    const char *get_name() override { return this->NAME; }
 };
 
 /**
@@ -74,8 +81,10 @@ public:
  */
 class APICrypto : public RestAPI {
 public:
+    static const char *NAME;
     APICrypto(ConfigLoader conf) : RestAPI(conf) {};
     std::wstring text() override;
+    const char *get_name() override { return this->NAME; }
 };
 
 

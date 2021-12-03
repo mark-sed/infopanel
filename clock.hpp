@@ -38,6 +38,7 @@ protected:
      */
     const std::tm* get_time_now();
 public:
+    static const char *NAME_API;
     unsigned int delay; ///< Recommended delay for clock in us
 
     /**

@@ -63,7 +63,7 @@ bool is_market_open(){
     return activity;
 }
 
-void wall_clock(Task *task) {
+void info_panel::wall_clock(Task *task) {
     sc.draw(matrix);
     int pos = -16+matrix.get_text_width()/2;
     matrix.render(pos);
@@ -91,7 +91,7 @@ void crypto_data(Task *task){
     }
 }
 
-void crypto_stocks_data(Task *task){
+void info_panel::crypto_stocks_data(Task *task){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
     static std::wstring text;
@@ -119,15 +119,15 @@ namespace info_panel {
 void info_panel::init_panel() {
     std::cout << "Starting panel\n";
     // Market open pipeline
-    Task wc_open_task(wall_clock, 10'000);
+    Task wc_open_task(wall_clock, Clock::NAME_API, 10'000);
     //Task crst_task(crypto_stocks_data, 0);
     Pipeline p_market_open(is_market_open);
     p_market_open.push(wc_open_task);
     //p_market_open.push(crst_task);
     
     // Market closed pipeline
-    Task wc_closed_task(wall_clock, 1'000*60*10); // 10 mins of clock
-    Task crypto_task(crypto_data, 0);
+    Task wc_closed_task(wall_clock, Clock::NAME_API, 1'000*60*10); // 10 mins of clock
+    Task crypto_task(crypto_data, APICrypto::NAME, 0);
     Pipeline p_market_closed([]() -> bool{return true;});
     p_market_closed.push(wc_closed_task);
     p_market_closed.push(crypto_task);

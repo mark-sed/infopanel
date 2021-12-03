@@ -28,6 +28,9 @@
 
 using json = nlohmann::json;
 
+const char * APICrypto::NAME = "Crypto";
+const char * APIStocks::NAME = "Stocks";
+
 /*void scroll_crypto_stocks(LEDMatrix matrix, ConfigLoader conf, APICrypto crypto, APIStocks stocks, MatrixFont font){
     // TODO: Add check for updating data instead of doing it all
     // FIXME: Does not render (no leds are on)

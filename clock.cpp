@@ -17,6 +17,7 @@
 #include <sstream>
 #include <iostream>
 
+const char *Clock::NAME_API = "Clock";
 
 const std::tm *Clock::get_time_now(){
     std::time_t t = std::time(nullptr);
