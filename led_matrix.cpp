@@ -45,8 +45,9 @@ std::string to_upper(std::string text){
 
 LEDMatrix::LEDMatrix(unsigned int width, unsigned int height, uint8_t brightness) : 
                      width(width), height(height), brightness(brightness), 
-                     pixels{std::vector<ws2811_led_t>(width*height), std::vector<ws2811_led_t>(width*height)},
-                     on{true} { 
+                     on{true},
+                     lamp_mode{false},
+                     pixels{std::vector<ws2811_led_t>(width*height), std::vector<ws2811_led_t>(width*height)} {
     // Setup ledstring     
     ws2811_t temp_ledstring = {
         .freq = ConfLEDMatrix::TARGET_FREQUENCY,
@@ -91,8 +92,15 @@ bool LEDMatrix::toggle() {
     if(!on) {
         pixels[0].clear();
         pixels[1].clear();
+        ws2811_render(&this->ledstring);
     }
     return on;
+}
+
+bool LEDMatrix::toggle_lamp_mode() {
+    this->lamp_mode = !this->lamp_mode;
+    render();
+    return this->lamp_mode;
 }
 
 unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
@@ -124,7 +132,7 @@ unsigned int LEDMatrix::parse_ctrl_seq(std::wstring wtext, ws2811_led_t &color){
 }
 
 void LEDMatrix::draw_text(std::wstring text, MatrixFont font, ws2811_led_t default_color){
-    if(!on) {
+    if(!on || lamp_mode) {
         return;
     }
     // TODO: Make this place in spacers if max_height != height?
@@ -309,22 +317,28 @@ void LEDMatrix::test(){
 }
 
 void LEDMatrix::render(int offset){
-    // TODO: Add negative offset for shifting text to right
-    long i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
-    
-    std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
-    // Copy data from matrix to ledstring
-    long last_i = width*height+offset*height;
-    // Clear space before first character if offset is negative
-    if(offset < 0){
-	std::copy(&this->pixels[i].data()[0], &this->pixels[i].data()[width*height+offset*height], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+(-1*offset)*height);
+    if(lamp_mode) {
+        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, 
+                  this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::WHITE);
     }
-    else{
-    	std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
-    }
-    // Clear space after last character
-    if(this->pixels[i].size()-offset*height < width*height){
-        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+this->pixels[i].size()-offset*height, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+    else {
+        // TODO: Add negative offset for shifting text to right
+        long i = offset % 2 ? LEDMatrix::ODD_I : LEDMatrix::EVEN_I; 
+        
+        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+        // Copy data from matrix to ledstring
+        long last_i = width*height+offset*height;
+        // Clear space before first character if offset is negative
+        if(offset < 0){
+        std::copy(&this->pixels[i].data()[0], &this->pixels[i].data()[width*height+offset*height], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+(-1*offset)*height);
+        }
+        else{
+            std::copy(&this->pixels[i].data()[offset*height], &this->pixels[i].data()[last_i], this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds);
+        }
+        // Clear space after last character
+        if(this->pixels[i].size()-offset*height < width*height){
+            std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+this->pixels[i].size()-offset*height, this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+        }
     }
     // Call ws render to display new data
     ws2811_render(&this->ledstring);

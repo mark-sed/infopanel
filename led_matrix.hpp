@@ -77,6 +77,7 @@ private:
     unsigned int text_height; ///< Height of drawn content (in panel pixels)
     ws2811_t ledstring;       ///< Configuration struct
     bool on;                  ///< If the the panel displays data, otherwise it does not
+    bool lamp_mode;           ///< Lamp mode with the whole display shining
     
     /**
      * Parses control sequence
@@ -113,7 +114,7 @@ public:
 
     /**
      * Toggles the panel on/off
-     * @return Current status of the panel (true = on; false = off)
+     * @return Current (after toggle) status of the panel (true = on; false = off)
      */ 
     bool toggle();
 
@@ -121,6 +122,17 @@ public:
      * @return If the panel is on (true) or off (false)
      */ 
     bool is_on() { return on; }
+
+    /**
+     * Toggles lamp mode on/off
+     * @return Current (after toggle) status of the lamp mode (true = on; false = off)
+     */ 
+    bool toggle_lamp_mode();
+
+    /**
+     * @return If the panel is in lamp mode
+     */ 
+    bool is_lamp_mode() { return on; }
 
     /**
      * Draws text to canvas (for rendering on the panel)

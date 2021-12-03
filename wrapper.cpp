@@ -34,7 +34,7 @@ namespace wrapper {
         }
 
         bool toggle_lamp() {
-            return true;
+            return info_panel::matrix.toggle_lamp_mode();
         }
 
         bool toggle_display() {
@@ -107,8 +107,7 @@ namespace wrapper {
         }
 
         bool get_lamp_status() {
-            // TODO: Read lamp mode when added
-            return true;
+            return info_panel::matrix.is_lamp_mode();
         }
 
         bool get_display_status() {
