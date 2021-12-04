@@ -25,5 +25,49 @@
     "clock": {
         "font": "Ascii",
         "name": "Simple clock"
+    },
+    "scheduler": {
+        "widgets": {
+            "stocks": [
+            {
+                "position": 2,
+                "duration": {
+                    "multiplicator": true,
+                    "value": 1
+                },
+                "tickers": [
+                    "INTC", "F", "IBM"
+                ],
+                "showPrice": true,
+                "showPercentage": true
+            }
+            ],
+            "crypto": [
+                {
+                    "position": 1,
+                    "duration": {
+                        "multiplicator": true,
+                        "value": 1
+                    },
+                    "tickers": [
+                        "bitcoin", "ethereum"
+                    ],
+                    "showPrice": true,
+                    "showPercentage": true
+                }
+            ],
+            "clock": [
+                {
+                    "position": 0,
+                    "duration": {
+                        "multiplicator": false,
+                        "value": 10
+                    },
+                    "format24hr": true,
+                    "font": "Ascii",
+                    "type": "Classic"
+                }
+            ]
+        }
     }
 }  

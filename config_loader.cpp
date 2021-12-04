@@ -177,3 +177,17 @@ std::string ConfigLoader::get_clock_name(){
 std::string ConfigLoader::get_clock_font(){
     return this->json_data["clock"]["font"].get<std::string>();
 }
+
+std::string ConfigLoader::get_scheduler() {
+    return this->json_data["scheduler"].dump();
+}
+
+bool ConfigLoader::set_scheduler(std::string scheduler) {
+    try{
+        this->json_data["scheduler"] = json::parse(scheduler);
+    }catch(json::exception &e){
+        std::cerr << "ERROR: Could not parse passed in scheduler\n";
+        return false;
+    }
+    return true;
+}

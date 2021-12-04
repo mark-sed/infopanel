@@ -79,6 +79,9 @@ public:
 
     std::string get_clock_name();
     std::string get_clock_font();
+
+    std::string get_scheduler();
+    bool set_scheduler(std::string scheduler);
 };
 
 #endif//_CONFIG_LOADER_HPP_

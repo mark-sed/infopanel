@@ -107,6 +107,37 @@ void crypto_data(Task *task){
     last_time_scroll = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
+void stock_data(Task *task){
+    using namespace std::chrono;
+    static milliseconds last_time = milliseconds(0);
+    static milliseconds last_time_scroll = milliseconds(0);
+    static std::wstring text;
+    static long col = -MATRIX_WIDTH;
+
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) < last_time_scroll + SCROLL_DELAY) {
+        return;
+    }
+
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) > last_time_scroll + RESUME_DELAY) {
+	    col = -MATRIX_WIDTH;
+    }
+
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
+        text = api_stocks.text();
+        last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    }
+
+    matrix.draw_text(text, ascii);
+    matrix.render(col);
+    col++;
+    if(col >= static_cast<long>(matrix.get_text_width())){
+        col = -MATRIX_WIDTH;
+        task->done = true;
+    }
+
+    last_time_scroll = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+}
+
 void info_panel::crypto_stocks_data(Task *task){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
@@ -145,10 +176,10 @@ namespace info_panel {
 void info_panel::init_panel() {
     std::cout << "Starting panel\n";
     // Market open pipeline
-    Task wc_open_task(wall_clock, Clock::NAME_API, 10'000);
+    //Task wc_open_task(wall_clock, Clock::NAME_API, 10'000);
     //Task crst_task(crypto_stocks_data, 0);
-    Pipeline p_market_open(is_market_open);
-    p_market_open.push(wc_open_task);
+    //Pipeline p_market_open(is_market_open);
+    //p_market_open.push(wc_open_task);
     //p_market_open.push(crst_task);
     
     // Market closed pipeline
@@ -159,7 +190,7 @@ void info_panel::init_panel() {
     p_market_closed.push(crypto_task);
     
     // Scheduler
-    info_panel::scheduler.push(p_market_open);
+    //info_panel::scheduler.push(p_market_open);
     info_panel::scheduler.push(p_market_closed);
 }
 
