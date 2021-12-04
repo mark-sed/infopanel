@@ -88,7 +88,7 @@ namespace wrapper {
         }
 
         bool set_scheduler(std::string jsonStr) {
-
+            // TODO: 
             return true;
         }
 
@@ -141,7 +141,20 @@ namespace wrapper {
     namespace get {
 
         std::string get_settings() {
-            return "{}";
+            json settings_json = {
+                {"brightness", info_panel::matrix.get_brightness()},
+                {"currency",   info_panel::conf.get_units_currency()},
+                {"finhubKey",  info_panel::conf.get_stocks_url_values_key()},
+                {"polygonKey", info_panel::conf.get_stocks_url_market_open_key()},
+                {"colors", 
+                    {"symbol",  info_panel::conf.get_rest_color_symbol()},
+                    {"price",   info_panel::conf.get_rest_color_price()},
+                    {"gain",    info_panel::conf.get_rest_color_gain()},
+                    {"loss",    info_panel::conf.get_rest_color_loss()},
+                    {"neutral", info_panel::conf.get_rest_color_neutral()}
+                }
+            };
+            return settings_json.dump();
         }
 
         std::string get_brightness() {
