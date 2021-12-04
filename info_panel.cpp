@@ -189,10 +189,10 @@ void info_panel::init_panel_json() {
             pipeline.push(stocks_task);
         }
         else if(conf.get_crypto_position() == i) {
-	    pipeline.push(crypto_task);
+	        pipeline.push(crypto_task);
         }
         else if(conf.get_clock_position() == i){
-	    pipeline.push(clock_task);
+	        pipeline.push(clock_task);
         }
     }
 

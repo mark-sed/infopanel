@@ -36,11 +36,11 @@ void Pipeline::execute(){
     if( (tasks[this->current_task_i].one_time && tasks[this->current_task_i].done)
         || (!tasks[this->current_task_i].one_time && duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= start_time + milliseconds(tasks[this->current_task_i].min_duration_ms))) {
         // Start another task
-        this->current_task_i++;
+        tasks[this->current_task_i].done = false;
+        ++this->current_task_i;
         if(this->current_task_i >= this->tasks.size()){
             this->current_task_i = 0;
         }
-        tasks[this->current_task_i].done = false;
         this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     }
     
@@ -56,24 +56,21 @@ Scheduler::Scheduler() : queue{} {
 }
 
 void Scheduler::execute(){
-    for(auto p: this->queue){
-        if(priority != nullptr) {
-            if((priority->one_time && priority->done)
-                || (!priority->one_time && duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= start_time + milliseconds(priority->min_duration_ms))) {
-                delete this->priority;
-                this->priority = nullptr;
-            }
-            else {
-                this->priority->fun(priority); 
-            }   
+    if(priority != nullptr) {
+        if((priority->one_time && priority->done)
+            || (!priority->one_time && duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= start_time + milliseconds(priority->min_duration_ms))) {
+            delete this->priority;
+            this->priority = nullptr;
         }
         else {
-            // Find first active task in the queue
-            // it is a priority queue so break after finding it
-            if(p.is_active()){
-                p.execute();
-                break;
-            }
+            this->priority->fun(priority); 
+        }   
+    }
+    else {
+        // Find first active task in the queue
+        // it is a priority queue so break after finding it
+        if(this->queue.size() > 0 && this->queue[0].is_active()){
+            this->queue[0].execute();
         }
     }
 }
