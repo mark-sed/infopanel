@@ -203,6 +203,10 @@ def getScheduler():
             "stocks": [
             {
                 "position": 0,
+                "duration": {
+                    "multiplicator": True,
+                    "value": 1
+                },
                 "tickers": [
                     "NIO", "F", "INTC"
                 ],
@@ -213,6 +217,10 @@ def getScheduler():
             "crypto": [
             {
                 "position": 1,
+                "duration": {
+                    "multiplicator": True,
+                    "value": 1
+                },
                 "tickers": [
                     "bitcoin", "ethereum"
                 ],
@@ -223,6 +231,10 @@ def getScheduler():
             "clock": [
             {
                 "position": 2,
+                "duration": {
+                    "multiplicator": False,
+                    "value": 10
+                },
                 "format24hr": True,
                 "font": "Ascii",
                 "type": "Pixelated"

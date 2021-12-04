@@ -72,8 +72,11 @@ std::string ConfigLoader::get_rest_font(){
     return this->json_data["rest_api"]["font"].get<std::string>();
 }
 
-std::string ConfigLoader::get_rest_color_symbol(){
-    return "{{"+this->json_data["rest_api"]["color_symbol"].get<std::string>()+"}}";
+std::string ConfigLoader::get_rest_color_symbol(bool esc){
+    if(esc)
+        return "{{"+this->json_data["rest_api"]["color_symbol"].get<std::string>()+"}}";
+    else
+        return this->json_data["rest_api"]["color_symbol"].get<std::string>();
 }
 
 bool ConfigLoader::set_rest_color_symbol(std::string code) {
@@ -81,8 +84,11 @@ bool ConfigLoader::set_rest_color_symbol(std::string code) {
     return true;
 }
 
-std::string ConfigLoader::get_rest_color_price(){
-    return "{{"+this->json_data["rest_api"]["color_price"].get<std::string>()+"}}";
+std::string ConfigLoader::get_rest_color_price(bool esc){
+    if(esc)
+        return "{{"+this->json_data["rest_api"]["color_price"].get<std::string>()+"}}";
+    else
+        return this->json_data["rest_api"]["color_price"].get<std::string>();
 }
 
 bool ConfigLoader::set_rest_color_price(std::string code) {
@@ -90,8 +96,11 @@ bool ConfigLoader::set_rest_color_price(std::string code) {
     return true;
 }
 
-std::string ConfigLoader::get_rest_color_gain(){
-    return "{{"+this->json_data["rest_api"]["color_gain"].get<std::string>()+"}}";
+std::string ConfigLoader::get_rest_color_gain(bool esc){
+    if(esc)
+        return "{{"+this->json_data["rest_api"]["color_gain"].get<std::string>()+"}}";
+    else
+        return this->json_data["rest_api"]["color_gain"].get<std::string>();
 }
 
 bool ConfigLoader::set_rest_color_gain(std::string code) {
@@ -99,8 +108,11 @@ bool ConfigLoader::set_rest_color_gain(std::string code) {
     return true;
 }
 
-std::string ConfigLoader::get_rest_color_loss(){
-    return "{{"+this->json_data["rest_api"]["color_loss"].get<std::string>()+"}}";
+std::string ConfigLoader::get_rest_color_loss(bool esc){
+    if(esc)
+        return "{{"+this->json_data["rest_api"]["color_loss"].get<std::string>()+"}}";
+    else
+        return this->json_data["rest_api"]["color_gain"].get<std::string>();
 }
 
 bool ConfigLoader::set_rest_color_loss(std::string code) {
@@ -108,8 +120,11 @@ bool ConfigLoader::set_rest_color_loss(std::string code) {
     return true;
 }
 
-std::string ConfigLoader::get_rest_color_neutral(){
-    return "{{"+this->json_data["rest_api"]["color_neutral"].get<std::string>()+"}}";
+std::string ConfigLoader::get_rest_color_neutral(bool esc){
+    if(esc)
+        return "{{"+this->json_data["rest_api"]["color_neutral"].get<std::string>()+"}}";
+    else
+        return this->json_data["rest_api"]["color_neutral"].get<std::string>();
 }
 
 bool ConfigLoader::set_rest_color_neutral(std::string code) {

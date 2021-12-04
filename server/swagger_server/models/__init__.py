@@ -6,6 +6,7 @@ from __future__ import absolute_import
 from swagger_server.models.clock import Clock
 from swagger_server.models.crypto import Crypto
 from swagger_server.models.curr_settings import CurrSettings
+from swagger_server.models.duration import Duration
 from swagger_server.models.int_value import IntValue
 from swagger_server.models.lamp_status import LampStatus
 from swagger_server.models.list_of_strings import ListOfStrings

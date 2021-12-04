@@ -52,15 +52,15 @@ public:
     bool get_units_time24h();
 
     std::string get_rest_font();
-    std::string get_rest_color_symbol();
+    std::string get_rest_color_symbol(bool esc=true);
     bool set_rest_color_symbol(std::string code);
-    std::string get_rest_color_price();
+    std::string get_rest_color_price(bool esc=true);
     bool set_rest_color_price(std::string code);
-    std::string get_rest_color_gain();
+    std::string get_rest_color_gain(bool esc=true);
     bool set_rest_color_gain(std::string code);
-    std::string get_rest_color_loss();
+    std::string get_rest_color_loss(bool esc=true);
     bool set_rest_color_loss(std::string code);
-    std::string get_rest_color_neutral();
+    std::string get_rest_color_neutral(bool esc=true);
     bool set_rest_color_neutral(std::string code);
 
     std::string get_stocks_url_values();

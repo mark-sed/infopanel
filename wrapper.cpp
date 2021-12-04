@@ -148,11 +148,11 @@ namespace wrapper {
                 {"polygonKey", info_panel::conf.get_stocks_url_market_open_key()}
             };
             json settings_colors = {
-                {"symbol",  info_panel::conf.get_rest_color_symbol()},
-                {"price",   info_panel::conf.get_rest_color_price()},
-                {"gain",    info_panel::conf.get_rest_color_gain()},
-                {"loss",    info_panel::conf.get_rest_color_loss()},
-                {"neutral", info_panel::conf.get_rest_color_neutral()}
+                {"symbol",  info_panel::conf.get_rest_color_symbol(false)},
+                {"price",   info_panel::conf.get_rest_color_price(false)},
+                {"gain",    info_panel::conf.get_rest_color_gain(false)},
+                {"loss",    info_panel::conf.get_rest_color_loss(false)},
+                {"neutral", info_panel::conf.get_rest_color_neutral(false)}
             };
             settings_json["colors"] = settings_colors;
             return settings_json.dump();

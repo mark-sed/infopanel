@@ -525,6 +525,8 @@ definitions:
       properties:
         position:
           type: "integer"
+        duration:
+          $ref: "#/definitions/Duration"
         tickers:
           type: "array"
           items:
@@ -540,6 +542,8 @@ definitions:
       properties:
         position:
           type: "integer"
+        duration:
+          $ref: "#/definitions/Duration"
         tickers:
           type: "array"
           items:
@@ -555,12 +559,21 @@ definitions:
       properties:
         position:
           type: "integer"
+        duration:
+          $ref: "#/definitions/Duration"
         format24hr:
           type: "boolean"
         font:
           type: "string"
         type:
           type: "string"
+  Duration:
+    type: "object"
+    properties:
+      multiplicator:
+        type: "boolean"
+      value:
+        type: "integer"
   ListOfStrings:
     type: "array"
     items:
