@@ -1,3 +1,16 @@
+/**
+ * @file wrapper.cpp
+ * @author Marek Sedlacek
+ * @date November 2021
+ * @copyright Copyright 2021 Marek Sedlacek. All rights reserved.
+ * @license This project is released under the GNU Public License.
+ *          See LICENSE file in main directory.
+ * 
+ * @brief Wrapper for the C++ code to work with Python REST API server.
+ * 
+ * Wrapps main REST API functions to work with Python and match the REST API calls.
+ */
+
 #include "pybind11/pybind11.h"
 #include <string>
 #include "libs/json.hpp"

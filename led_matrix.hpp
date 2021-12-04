@@ -23,7 +23,9 @@
 #include "libs/rpi_ws281x/ws2811.h"
 #include "font.hpp"
 
+/** Coverts string to wstring */
 std::wstring to_wstring(std::string text);
+/** Converts string to upper case */
 std::string to_upper(std::string text);
 
 /** 

@@ -114,7 +114,7 @@ void info_panel::crypto_stocks_data(Task *task){
     }
 
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) > last_time_scroll + RESUME_DELAY) {
-	col = -MATRIX_WIDTH;
+	    col = -MATRIX_WIDTH;
     }
     
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){

@@ -3,11 +3,22 @@
 RaspberryPI based display panel (LED matrix) API to display stuff like stock prices and other "useful" stuff
 
 # Making it run
+
+## Without REST API server
 `config.json.fill` has to be renamed to `config.json` and API keys should be filled in same as symbols to display.
 
 Then `Makefile` can be used to compile the program and then the program needs to be ran with sudo privileges. Alternatively `&` can be appended at the end to make the program run in the background and free up your terminal.
+
 ```
 make && sudo ./infopanel.out
+```
+
+## With REST API server
+Compilation can be done using `make rest` and then using the `run_server.sh` script (`sh run_server.sh`) which starts
+the server and the display application. This server requires `sudo` privilege.
+
+```
+make rest && sh run_server.sh
 ```
 
 ## What needs to be setup

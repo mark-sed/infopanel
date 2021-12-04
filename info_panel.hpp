@@ -27,22 +27,27 @@
 #include "rest_api.hpp"
 #include "scheduler.hpp"
 
+/**
+ * InfoPanel namespace mainly to be used by external parts, like the REST API
+ */ 
 namespace info_panel {
+    /** Initialized the panel */
     void init_panel();
+    /** Runs one iteration of the panel behavior */
     void run_panel();
 
-    
-    extern LEDMatrix matrix;
-    extern ConfigLoader conf;
-    extern APIStocks api_stocks;
-    extern APICrypto api_crypto;
-    extern FontAscii clock_ascii; // Will be std::moved, dont use
-    extern FontAscii ascii;
-    extern SimpleClock simpleClock;
+    extern LEDMatrix matrix;        ///< LED panel driver
+    extern ConfigLoader conf;       ///< Configuration file loader
+    extern APIStocks api_stocks;    ///< Instance of API Stocks
+    extern APICrypto api_crypto;    ///< Instance of API Crypto
+    extern FontAscii ascii;         ///< Font to be used by widgets
+    extern SimpleClock simpleClock; ///< Simple clock for wall clock
 
-    extern Scheduler scheduler;
+    extern Scheduler scheduler;     ///< Main panel scheduler
 
+    /** Scrolls crypto and stocks values. Used by controller interrupt */
     void crypto_stocks_data(Task *task);
+    /** Shows wallclock. Used by controller interrupt */
     void wall_clock(Task *task);
 }
 
