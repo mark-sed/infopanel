@@ -20,6 +20,12 @@ def rgb2grb(rgb):
     """
     return "0x"+rgb[4:6]+rgb[2:4]+rgb[6:8]
 
+def grb2rgb(grb):
+    """
+    Converts grb hex string into rgb hexstring
+    """
+    return "0x"+grb[4:6]+grb[2:4]+grb[6:8]
+
 def hello():
     """
     Ping response
@@ -170,7 +176,13 @@ def getSettings():
                 }
             }
         )
-    return stockpanel.getSettings()
+    settings_json = json.loads(stockpanel.getSettings())
+    settings_json["colors"]["symbol"] = grb2rgb(settings_json["colors"]["symbol"])
+    settings_json["colors"]["price"] = grb2rgb(settings_json["colors"]["price"])
+    settings_json["colors"]["gain"] = grb2rgb(settings_json["colors"]["gain"])
+    settings_json["colors"]["loss"] = grb2rgb(settings_json["colors"]["loss"])
+    settings_json["colors"]["neutral"] = grb2rgb(settings_json["colors"]["neutral"])
+    return json.dumps(settings_json)
 
 def getBrightness():
     """
