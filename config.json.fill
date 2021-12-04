@@ -19,7 +19,7 @@
         },
         "crypto": {
             "url_values": "https://api.coingecko.com/api/v3/coins/markets?",
-            "symbols": ["bitcoin", "ethereum"]     
+            "symbols": ["BTC", "ETH"]     
         }
     },
     "clock": {

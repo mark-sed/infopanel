@@ -107,7 +107,7 @@ void crypto_data(Task *task){
     last_time_scroll = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
-void stock_data(Task *task){
+void stocks_data(Task *task){
     using namespace std::chrono;
     static milliseconds last_time = milliseconds(0);
     static milliseconds last_time_scroll = milliseconds(0);
@@ -174,7 +174,29 @@ namespace info_panel {
 }
 
 void info_panel::init_panel_json() {
-    
+    Pipeline pipeline([]() -> bool{return true;});
+
+    bool multip;
+    int dur = conf.get_stocks_duration(&multip);
+    Task stocks_task(stocks_data, APIStocks::NAME, dur, multip);
+    dur = conf.get_crypto_duration(&multip);
+    Task crypto_task(crypto_data, APICrypto::NAME, dur, multip);
+    dur = conf.get_clock_duration(&multip);
+    Task clock_task(wall_clock, Clock::NAME_API, dur, multip);
+
+    for(int i = 0; i < 3; ++i) {
+        if(conf.get_stocks_position() == i) {
+            pipeline.push(stocks_task);
+        }
+        else if(conf.get_crypto_position() == i) {
+            pipeline.push(crypto_task);
+        }
+        else if(conf.get_clock_position() == i){
+            pipeline.push(clock_task);
+        }
+    }
+
+    info_panel::scheduler.push(pipeline);
 }
 
 void info_panel::init_panel() {

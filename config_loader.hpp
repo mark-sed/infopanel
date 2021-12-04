@@ -80,6 +80,15 @@ public:
     std::string get_clock_name();
     std::string get_clock_font();
 
+    int get_stocks_position();
+    int get_stocks_duration(bool *multip);
+
+    int get_crypto_position();
+    int get_crypto_duration(bool *multip);
+
+    int get_clock_position();
+    int get_clock_duration(bool *multip);
+
     std::string get_scheduler();
     bool set_scheduler(std::string scheduler);
 };

@@ -29,7 +29,7 @@ namespace wrapper {
     }
 
     void init() {
-        info_panel::init_panel();
+        info_panel::init_panel_json();
     }
 
     void run() {
