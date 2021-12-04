@@ -68,7 +68,6 @@ void info_panel::wall_clock(Task *task) {
     sc.draw(matrix);
     int pos = -16+matrix.get_text_width()/2;
     matrix.render(pos);
-    usleep(sc.delay);
 }
 
 void crypto_data(Task *task){
