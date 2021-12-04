@@ -65,9 +65,14 @@ bool is_market_open(){
 }
 
 void info_panel::wall_clock(Task *task) {
+    using namespace std::chrono;
+    static milliseconds last_time = milliseconds(0);
+    if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) < last_time + milliseconds(sc.delay))
+        return;
     sc.draw(matrix);
     int pos = -16+matrix.get_text_width()/2;
     matrix.render(pos);
+    last_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
 void crypto_data(Task *task){

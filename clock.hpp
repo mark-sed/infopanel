@@ -39,7 +39,7 @@ protected:
     const std::tm* get_time_now();
 public:
     static const char *NAME_API;
-    unsigned int delay; ///< Recommended delay for clock in us
+    unsigned int delay; ///< Recommended delay for clock in ms
 
     /**
      * Draw method (draws clock to LEDMatrix)
@@ -57,7 +57,7 @@ class SimpleClock : public Clock {
 protected:
     const std::string NAME = "Simple clock";
 public:
-    SimpleClock(MatrixFont font) : Clock(font, 100) {};
+    SimpleClock(MatrixFont font) : Clock(font, 1'000) {};
     void draw(LEDMatrix &matrix) override;
 };
 
