@@ -40,9 +40,14 @@ public:
      */
     void reload();
 
+    /**
+     * Updates data from the loader into the config file
+     */ 
+    void write_to_config();
+
     // Getters and setters for config values
     std::string get_units_currency();
-    void set_units_currency(std::string name);
+    bool set_units_currency(std::string name);
     bool get_units_time24h();
 
     std::string get_rest_font();

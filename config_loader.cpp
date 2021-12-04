@@ -47,12 +47,21 @@ void ConfigLoader::reload(){
     }
 }
 
+void ConfigLoader::write_to_config() {
+    auto json_string = this->json_data.dump();
+    // Open file
+    std::ofstream f(ConfigLoader::PATH);
+    f << json_string;
+    f.close();
+}
+
 std::string ConfigLoader::get_units_currency(){
     return this->json_data["units"]["currency"].get<std::string>();
 }
 
-void ConfigLoader::set_units_currency(std::string name) {
+bool ConfigLoader::set_units_currency(std::string name) {
     this->json_data["units"]["currency"] = name;
+    return true;
 }
 
 bool ConfigLoader::get_units_time24h(){

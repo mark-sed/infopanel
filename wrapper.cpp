@@ -25,8 +25,6 @@ using json = nlohmann::json;
 namespace wrapper {
 
     std::string hello(){
-        info_panel::conf.set_units_currency("czk");
-        std::cout << info_panel::conf.get_units_currency() << std::endl;
         return std::string("Pong");
     }
 
@@ -66,7 +64,11 @@ namespace wrapper {
     namespace settings {
 
         bool set_currency(std::string name) {
-            return true;
+            auto rval = info_panel::conf.set_units_currency(name);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_finhub_key(std::string key) {
