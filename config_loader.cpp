@@ -51,6 +51,10 @@ std::string ConfigLoader::get_units_currency(){
     return this->json_data["units"]["currency"].get<std::string>();
 }
 
+void ConfigLoader::set_units_currency(std::string name) {
+    this->json_data["units"]["currency"] = name;
+}
+
 bool ConfigLoader::get_units_time24h(){
     return this->json_data["units"]["time24h"].get<bool>();
 }

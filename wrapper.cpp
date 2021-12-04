@@ -13,6 +13,7 @@
 
 #include "pybind11/pybind11.h"
 #include <string>
+#include <iostream>
 #include "libs/json.hpp"
 #include "info_panel.hpp"
 
@@ -24,6 +25,8 @@ using json = nlohmann::json;
 namespace wrapper {
 
     std::string hello(){
+        info_panel::conf.set_units_currency("czk");
+        std::cout << info_panel::conf.get_units_currency() << std::endl;
         return std::string("Pong");
     }
 

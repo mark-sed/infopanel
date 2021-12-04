@@ -26,7 +26,7 @@
 #include "scheduler.hpp"
 
 // TODO: Read from config
-#define SCROLL_DELAY milliseconds(15)
+#define SCROLL_DELAY milliseconds(30)
 #define RESUME_DELAY milliseconds(5*1000)
 #define MATRIX_WIDTH 32
 #define MATRIX_HEIGHT 8
@@ -83,7 +83,7 @@ void crypto_data(Task *task){
     }
 
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) > last_time_scroll + RESUME_DELAY) {
-	col = -MATRIX_WIDTH;
+	    col = -MATRIX_WIDTH;
     }
 
     if(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >= last_time + MARKET_UPDATE_TIME_MS){
@@ -95,6 +95,7 @@ void crypto_data(Task *task){
     matrix.render(col);
     col++;
     if(col >= static_cast<long>(matrix.get_text_width())){
+
         col = -MATRIX_WIDTH;
         task->done = true;
     }
@@ -148,7 +149,7 @@ void info_panel::init_panel() {
     
     // Market closed pipeline
     Task wc_closed_task(wall_clock, Clock::NAME_API, 1'000*60*10); // 10 mins of clock
-    Task crypto_task(crypto_data, APICrypto::NAME, 0);
+    Task crypto_task(crypto_data, APICrypto::NAME, 0, true);
     Pipeline p_market_closed([]() -> bool{return true;});
     p_market_closed.push(wc_closed_task);
     p_market_closed.push(crypto_task);

@@ -40,8 +40,9 @@ public:
      */
     void reload();
 
-    // Getters for config values
+    // Getters and setters for config values
     std::string get_units_currency();
+    void set_units_currency(std::string name);
     bool get_units_time24h();
 
     std::string get_rest_font();

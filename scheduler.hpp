@@ -31,7 +31,7 @@ struct Task {
     bool done;                     ///< Used for one_time tasks, true indicates that the task can be closed 
     bool one_time;                 ///< If the task is one time run or duration controlled
     const char *api_name;          ///< API name used for controller
-    Task(TaskFun fun, const char *api_name, unsigned int min_duration_ms=0, bool one_time=false) {
+    Task(TaskFun fun, const char *api_name, unsigned int min_duration_ms=0, bool one_time=true) {
         this->fun = fun;
         this->api_name = api_name;
         this->min_duration_ms = min_duration_ms;
