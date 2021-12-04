@@ -159,7 +159,7 @@ bool ConfigLoader::set_stocks_url_market_open_key(std::string key) {
 }
 
 std::vector<std::string> ConfigLoader::get_stocks_symbols(){
-    return this->json_data["rest_api"]["stocks"]["symbols"].get<std::vector<std::string> >();
+    return this->json_data["scheduler"]["widgets"]["stocks"][0]["tickers"].get<std::vector<std::string> >();
 }
 
 std::string ConfigLoader::get_crypto_url_values(){
@@ -167,15 +167,15 @@ std::string ConfigLoader::get_crypto_url_values(){
 }
 
 std::vector<std::string> ConfigLoader::get_crypto_symbols(){
-    return this->json_data["rest_api"]["crypto"]["symbols"].get<std::vector<std::string> >();
+    return this->json_data["scheduler"]["widgets"]["crypto"][0]["tickers"].get<std::vector<std::string> >();
 }
 
 std::string ConfigLoader::get_clock_name(){
-    return this->json_data["clock"]["name"].get<std::string>();
+    return this->json_data["scheduler"]["widgets"]["clock"][0]["type"].get<std::string>();
 }
 
 std::string ConfigLoader::get_clock_font(){
-    return this->json_data["clock"]["font"].get<std::string>();
+    return this->json_data["scheduler"]["widgets"]["clock"][0]["font"].get<std::string>();
 }
 
 std::string ConfigLoader::get_scheduler() {

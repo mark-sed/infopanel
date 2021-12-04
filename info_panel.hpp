@@ -33,6 +33,8 @@
 namespace info_panel {
     /** Initialized the panel */
     void init_panel();
+    /** Intializes the panel using scheduler in the config */
+    void init_panel_json();
     /** Runs one iteration of the panel behavior */
     void run_panel();
 

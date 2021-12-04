@@ -34,7 +34,7 @@ def get_clock_types():  # noqa: E501
 
     :rtype: ListOfStrings
     """
-    return ["Simple", "Classic"]
+    return ["Simple clock", "Classic clock"]
 
 
 def get_currencies():  # noqa: E501

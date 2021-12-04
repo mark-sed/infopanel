@@ -173,14 +173,18 @@ namespace info_panel {
     Scheduler scheduler;
 }
 
+void info_panel::init_panel_json() {
+    
+}
+
 void info_panel::init_panel() {
     std::cout << "Starting panel\n";
     // Market open pipeline
-    //Task wc_open_task(wall_clock, Clock::NAME_API, 10'000);
-    //Task crst_task(crypto_stocks_data, 0);
-    //Pipeline p_market_open(is_market_open);
-    //p_market_open.push(wc_open_task);
-    //p_market_open.push(crst_task);
+    Task wc_open_task(wall_clock, Clock::NAME_API, 10'000);
+    Task crst_task(crypto_stocks_data, 0);
+    Pipeline p_market_open(is_market_open);
+    p_market_open.push(wc_open_task);
+    p_market_open.push(crst_task);
     
     // Market closed pipeline
     Task wc_closed_task(wall_clock, Clock::NAME_API, 1'000*60*10); // 10 mins of clock
@@ -190,7 +194,7 @@ void info_panel::init_panel() {
     p_market_closed.push(crypto_task);
     
     // Scheduler
-    //info_panel::scheduler.push(p_market_open);
+    info_panel::scheduler.push(p_market_open);
     info_panel::scheduler.push(p_market_closed);
 }
 
