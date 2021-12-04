@@ -64,10 +64,10 @@ public:
  */ 
 class Scheduler {
 private:
-    std::vector<Pipeline> queue;          ///< Queue of pipelines
     Task *priority;                       ///< Priority task (interrupt task)
     std::chrono::milliseconds start_time; ///< Start time for priority task
 public:
+    std::vector<Pipeline> queue;          ///< Queue of pipelines
     Scheduler();
     /** Adds a new pipeline into the scheduler */
     void push(Pipeline p);

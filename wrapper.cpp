@@ -163,7 +163,20 @@ namespace wrapper {
         }
 
         std::string get_scheduler() {
-            return "{}";
+            json scheduler_json;
+            json stocks_json;
+            json crypto_json;
+            json clock_json;
+            if(info_panel::scheduler.queue.size() > 0) {
+                //auto pipeline = info_panel::
+                //json widget_json = {
+
+                //};
+            }
+            scheduler_json["widgets"]["stocks"] = stocks_json;
+            scheduler_json["widgets"]["crypto"] = crypto_json;
+            scheduler_json["widgets"]["clock"] = clock_json;
+            return scheduler_json.dump();
         }
 
         bool get_lamp_status() {

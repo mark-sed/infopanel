@@ -26,7 +26,7 @@
 #include "scheduler.hpp"
 
 // TODO: Read from config
-#define SCROLL_DELAY milliseconds(30)
+#define SCROLL_DELAY milliseconds(50)
 #define RESUME_DELAY milliseconds(5*1000)
 #define MATRIX_WIDTH 32
 #define MATRIX_HEIGHT 8
