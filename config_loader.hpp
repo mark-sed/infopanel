@@ -48,19 +48,30 @@ public:
     // Getters and setters for config values
     std::string get_units_currency();
     bool set_units_currency(std::string name);
+
     bool get_units_time24h();
 
     std::string get_rest_font();
     std::string get_rest_color_symbol();
+    bool set_rest_color_symbol(std::string code);
     std::string get_rest_color_price();
+    bool set_rest_color_price(std::string code);
     std::string get_rest_color_gain();
+    bool set_rest_color_gain(std::string code);
     std::string get_rest_color_loss();
+    bool set_rest_color_loss(std::string code);
     std::string get_rest_color_neutral();
+    bool set_rest_color_neutral(std::string code);
 
     std::string get_stocks_url_values();
+    
     std::string get_stocks_url_values_key();
+    bool set_stocks_url_values_key(std::string key);
+
     std::string get_stocks_url_market_open();
     std::string get_stocks_url_market_open_key();
+    bool set_stocks_url_market_open_key(std::string key);
+
     std::vector<std::string> get_stocks_symbols();
 
     std::string get_crypto_url_values();

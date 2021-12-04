@@ -72,11 +72,19 @@ namespace wrapper {
         }
 
         bool set_finhub_key(std::string key) {
-            return true;
+            auto rval = info_panel::conf.set_stocks_url_values_key(key);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_polygon_key(std::string key) {
-            return true;
+            auto rval = info_panel::conf.set_stocks_url_market_open_key(key);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_scheduler(std::string jsonStr) {
@@ -89,23 +97,43 @@ namespace wrapper {
     namespace colors {
 
         bool set_symbol(std::string code) {
-            return true;
+            auto rval = info_panel::conf.set_rest_color_symbol(code);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_price(std::string code) {
-            return true;
+            auto rval = info_panel::conf.set_rest_color_price(code);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_gain(std::string code) {
-            return true;
+            auto rval = info_panel::conf.set_rest_color_gain(code);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_loss(std::string code) {
-            return true;
+            auto rval = info_panel::conf.set_rest_color_loss(code);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
         bool set_neutral(std::string code) {
-            return true;
+            auto rval = info_panel::conf.set_rest_color_neutral(code);
+            if(rval) {
+                info_panel::conf.write_to_config();
+            }
+            return rval;
         }
 
     } // namespace colors

@@ -76,20 +76,45 @@ std::string ConfigLoader::get_rest_color_symbol(){
     return "{{"+this->json_data["rest_api"]["color_symbol"].get<std::string>()+"}}";
 }
 
+bool ConfigLoader::set_rest_color_symbol(std::string code) {
+    this->json_data["rest_api"]["color_symbol"] = code;
+    return true;
+}
+
 std::string ConfigLoader::get_rest_color_price(){
     return "{{"+this->json_data["rest_api"]["color_price"].get<std::string>()+"}}";
+}
+
+bool ConfigLoader::set_rest_color_price(std::string code) {
+    this->json_data["rest_api"]["color_price"] = code;
+    return true;
 }
 
 std::string ConfigLoader::get_rest_color_gain(){
     return "{{"+this->json_data["rest_api"]["color_gain"].get<std::string>()+"}}";
 }
 
+bool ConfigLoader::set_rest_color_gain(std::string code) {
+    this->json_data["rest_api"]["color_gain"] = code;
+    return true;
+}
+
 std::string ConfigLoader::get_rest_color_loss(){
     return "{{"+this->json_data["rest_api"]["color_loss"].get<std::string>()+"}}";
 }
 
+bool ConfigLoader::set_rest_color_loss(std::string code) {
+    this->json_data["rest_api"]["color_loss"] = code;
+    return true;
+}
+
 std::string ConfigLoader::get_rest_color_neutral(){
     return "{{"+this->json_data["rest_api"]["color_neutral"].get<std::string>()+"}}";
+}
+
+bool ConfigLoader::set_rest_color_neutral(std::string code) {
+    this->json_data["rest_api"]["color_neutral"] = code;
+    return true;
 }
 
 std::string ConfigLoader::get_stocks_url_values(){
@@ -100,12 +125,22 @@ std::string ConfigLoader::get_stocks_url_values_key(){
     return this->json_data["rest_api"]["stocks"]["url_values_key"].get<std::string>();
 }
 
+bool ConfigLoader::set_stocks_url_values_key(std::string key) {
+    this->json_data["rest_api"]["stocks"]["url_values_key"] = key;
+    return true;
+}
+
 std::string ConfigLoader::get_stocks_url_market_open(){
     return this->json_data["rest_api"]["stocks"]["url_market_open"].get<std::string>();
 }
 
 std::string ConfigLoader::get_stocks_url_market_open_key(){
     return this->json_data["rest_api"]["stocks"]["url_market_open_key"].get<std::string>();
+}
+
+bool ConfigLoader::set_stocks_url_market_open_key(std::string key) {
+    this->json_data["rest_api"]["stocks"]["url_market_open_key"] = key;
+    return true;
 }
 
 std::vector<std::string> ConfigLoader::get_stocks_symbols(){
