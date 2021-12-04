@@ -197,7 +197,7 @@ int ConfigLoader::get_stocks_position() {
 }
 
 int ConfigLoader::get_stocks_duration(bool *multip) {
-    *multip = this->json_data["scheduler"]["widgets"]["stocks"][0]["duration"]["mutliplicator"].get<bool>();
+    *multip = this->json_data["scheduler"]["widgets"]["stocks"][0]["duration"]["multiplicator"].get<bool>();
     return this->json_data["scheduler"]["widgets"]["stocks"][0]["duration"]["value"].get<int>();
 }
 
@@ -206,7 +206,7 @@ int ConfigLoader::get_crypto_position() {
 }
 
 int ConfigLoader::get_crypto_duration(bool *multip) {
-    *multip = this->json_data["scheduler"]["widgets"]["crypto"][0]["duration"]["mutliplicator"].get<bool>();
+    *multip = this->json_data["scheduler"]["widgets"]["crypto"][0]["duration"]["multiplicator"].get<bool>();
     return this->json_data["scheduler"]["widgets"]["crypto"][0]["duration"]["value"].get<int>();
 }
 
@@ -215,6 +215,6 @@ int ConfigLoader::get_clock_position() {
 }
 
 int ConfigLoader::get_clock_duration(bool *multip) {
-    *multip = this->json_data["scheduler"]["widgets"]["clock"][0]["duration"]["mutliplicator"].get<bool>();
+    *multip = this->json_data["scheduler"]["widgets"]["clock"][0]["duration"]["multiplicator"].get<bool>();
     return this->json_data["scheduler"]["widgets"]["clock"][0]["duration"]["value"].get<int>();
 }

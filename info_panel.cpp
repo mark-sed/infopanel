@@ -26,7 +26,7 @@
 #include "scheduler.hpp"
 
 // TODO: Read from config
-#define SCROLL_DELAY milliseconds(50)
+#define SCROLL_DELAY milliseconds(90)
 #define RESUME_DELAY milliseconds(5*1000)
 #define MATRIX_WIDTH 32
 #define MATRIX_HEIGHT 8
@@ -182,17 +182,17 @@ void info_panel::init_panel_json() {
     dur = conf.get_crypto_duration(&multip);
     Task crypto_task(crypto_data, APICrypto::NAME, dur, multip);
     dur = conf.get_clock_duration(&multip);
-    Task clock_task(wall_clock, Clock::NAME_API, dur, multip);
+    Task clock_task(wall_clock, Clock::NAME_API, dur*1000, multip);
 
     for(int i = 0; i < 3; ++i) {
         if(conf.get_stocks_position() == i) {
             pipeline.push(stocks_task);
         }
         else if(conf.get_crypto_position() == i) {
-            pipeline.push(crypto_task);
+	    pipeline.push(crypto_task);
         }
         else if(conf.get_clock_position() == i){
-            pipeline.push(clock_task);
+	    pipeline.push(clock_task);
         }
     }
 
