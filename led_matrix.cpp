@@ -89,11 +89,7 @@ void LEDMatrix::set_brightness(uint8_t brightness, bool render){
 
 bool LEDMatrix::toggle() {
     this->on = !on;
-    if(!on) {
-        pixels[0].clear();
-        pixels[1].clear();
-        ws2811_render(&this->ledstring);
-    }
+    render();
     return on;
 }
 
@@ -317,7 +313,11 @@ void LEDMatrix::test(){
 }
 
 void LEDMatrix::render(int offset){
-    if(lamp_mode) {
+    if(!on) {
+        std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, 
+                  this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::BLACK);
+    }
+    else if(lamp_mode) {
         std::fill(this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds, 
                   this->ledstring.channel[ConfLEDMatrix::RENDER_CHANNEL].leds+width*height, Color::WHITE);
     }
