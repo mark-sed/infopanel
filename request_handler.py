@@ -14,18 +14,6 @@ def is_dummy():
     """
     return len(argv) > 1 and (argv[1] == "-d" or argv[1] == "--dummy")
 
-def rgb2grb(rgb):
-    """
-    Converts rgb hex string into grb hexstring
-    """
-    return "0x"+rgb[4:6]+rgb[2:4]+rgb[6:8]
-
-def grb2rgb(grb):
-    """
-    Converts grb hex string into rgb hexstring
-    """
-    return "0x"+grb[4:6]+grb[2:4]+grb[6:8]
-
 def hello():
     """
     Ping response
@@ -118,7 +106,7 @@ def setColorSymbol(code):
     """
     if is_dummy():
         return True
-    return stockpanel.setColorSymbol(rgb2grb(code))
+    return stockpanel.setColorSymbol(code)
 
 def setColorPrice(code):
     """
@@ -127,7 +115,7 @@ def setColorPrice(code):
     """
     if is_dummy():
         return True
-    return stockpanel.setColorPrice(rgb2grb(code))
+    return stockpanel.setColorPrice(code)
 
 def setColorGain(code):
     """
@@ -136,7 +124,7 @@ def setColorGain(code):
     """
     if is_dummy():
         return True
-    return stockpanel.setColorGain(rgb2grb(code))
+    return stockpanel.setColorGain(code)
 
 def setColorLoss(code):
     """
@@ -145,7 +133,7 @@ def setColorLoss(code):
     """
     if is_dummy():
         return True
-    return stockpanel.setColorLoss(rgb2grb(code))
+    return stockpanel.setColorLoss(code)
 
 def setColorNeutral(code):
     """
@@ -154,7 +142,7 @@ def setColorNeutral(code):
     """
     if is_dummy():
         return True
-    return stockpanel.setColorNeutral(rgb2grb(code))
+    return stockpanel.setColorNeutral(code)
 
 def getSettings():
     """
@@ -177,11 +165,6 @@ def getSettings():
             }
         )
     settings_json = json.loads(stockpanel.getSettings())
-    settings_json["colors"]["symbol"] = grb2rgb(settings_json["colors"]["symbol"])
-    settings_json["colors"]["price"] = grb2rgb(settings_json["colors"]["price"])
-    settings_json["colors"]["gain"] = grb2rgb(settings_json["colors"]["gain"])
-    settings_json["colors"]["loss"] = grb2rgb(settings_json["colors"]["loss"])
-    settings_json["colors"]["neutral"] = grb2rgb(settings_json["colors"]["neutral"])
     return json.dumps(settings_json)
 
 def getBrightness():
