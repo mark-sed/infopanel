@@ -80,41 +80,29 @@ void Scheduler::push(Pipeline p){
 }
 
 bool Scheduler::show_stocks() {
-    for(auto p: this->queue) {
-        for(auto task: p.tasks) {
-            if(std::string(task.api_name) == std::string(APIStocks::NAME) 
-                || std::string(task.api_name) == std::string(APICrypto::NAME)) {
-                if(this->priority != nullptr) {
-                    delete this->priority;
-		    this->priority = nullptr;
-                }
-                auto show_task = new Task(info_panel::crypto_stocks_data, APIStocks::NAME, 0, true);
-                this->priority = show_task;
-                this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-                return true;
-            }
-        }
+    if(info_panel::conf.get_stocks_symbols().empty()) {
+        return false;
     }
-    return false;
+    if(this->priority != nullptr) {
+        delete this->priority;
+        this->priority = nullptr;
+    }
+    auto show_task = new Task(info_panel::crypto_stocks_data, APIStocks::NAME, 0, true);
+    this->priority = show_task;
+    this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    return true;
 }
 
 bool Scheduler::show_clock(int time_sec) {
     if(time_sec <= 0) {
         return true;
     }
-    for(auto p: this->queue) {
-        for(auto task: p.tasks) {
-            if(std::string(task.api_name) == std::string(Clock::NAME_API)) {
-                if(this->priority != nullptr) {
-                    delete this->priority;
-		    this->priority = nullptr;
-                }
-                auto show_task = new Task(info_panel::wall_clock, Clock::NAME_API, time_sec*1000, false);
-                this->priority = show_task;
-                this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-                return true;
-            }
-        }
+    if(this->priority != nullptr) {
+        delete this->priority;
+        this->priority = nullptr;
     }
-    return false;
+    auto show_task = new Task(info_panel::wall_clock, Clock::NAME_API, time_sec*1000, false);
+    this->priority = show_task;
+    this->start_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    return true;
 }
